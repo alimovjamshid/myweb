@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return ScreenTypeLayout(
       mobile: HomeMobile(),
-      tablet: HomeTab(),
+      tablet: HomeDesktop(),
       desktop: HomeDesktop(),
     );
   }

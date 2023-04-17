@@ -1,8 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mywebsite/src/animations/bottomAnimation.dart';
 import 'package:mywebsite/src/utils/constants.dart';
 import 'package:mywebsite/src/widgets/projectCard.dart';
+
+import '../../animations/entranceFader.dart';
 
 class PortfolioDesktop extends StatelessWidget {
   @override
@@ -11,73 +14,68 @@ class PortfolioDesktop extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     return Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: width * 0.02, vertical: height * 0.02),
+      width: width,
+      height: height * 0.9,
+      color: Colors.grey[200],
       child: Column(
         children: [
-          Text(
-            "\n Mon Portfolio",
-            style: GoogleFonts.montserrat(
-              fontSize: height * 0.06,
-              fontWeight: FontWeight.w100,
-              letterSpacing: 1.0,
-            ),
-          ),
-          Text(
-            "Voici quelques exemples de mes travaux realisés :)\n\n",
-            style: GoogleFonts.montserrat(fontWeight: FontWeight.w200),
-          ),
           SizedBox(
-            height: width > 1200 ? height * 0.45 : width * 0.2,
-            child: ListView.separated(
-              padding: EdgeInsets.symmetric(vertical: 20.0),
-              scrollDirection: Axis.horizontal,
-              separatorBuilder: (context, index) {
-                return VerticalDivider(
-                  color: Colors.transparent,
-                  width: width * 0.015,
-                );
-              },
-              itemBuilder: (context, index) {
-                return WidgetAnimator(
-                  child: ProjectCard(
-                    cardWidth: width < 1200 ? width * 0.25 : width * 0.35,
-                    cardHeight: width < 1200 ? height * 0.28 : height * 0.1,
-                    backImage: kProjectsBanner[index],
-                    projectIcon: kProjectsIcons[index],
-                    projectTitle: kProjectsTitles[index],
-                    projectDescription: kProjectsDescriptions[index],
-                    projectLink: kProjectsLinks[index],
-                    bottomWidget: index == 1
-                        ? Image.network(
-                            "https://img.icons8.com/material-sharp/384/ffffff/google-play.png",
-                            height: height * 0.04,
-                          )
-                        : Container(),
-                  ),
-                );
-              },
-              itemCount: kProjectsLinks.length,
-            ),
+            height: height * 0.1,
           ),
-          SizedBox(
-            height: height * 0.02,
-          ),
-          MaterialButton(
-            hoverColor: kPrimaryColor.withAlpha(150),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0),
-                side: BorderSide(color: kPrimaryColor)),
-            onPressed: () {
-              launchURL("https://github.com/BorisGautier");
-            },
-            child: Text(
-              "Voir Plus",
-              style: GoogleFonts.montserrat(
-                fontWeight: FontWeight.w200,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              EntranceFader(
+                offset: Offset(-32,0),
+                delay: Duration(seconds: 2),
+                child: Container(
+                  width: width * 0.25,
+                  height: height * 0.45,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      child: Image.asset(
+                        "assets/c.jpg",
+                        fit: BoxFit.cover,
+                      )),
+                ),
               ),
-            ),
-          ),
+              Container(
+                width: width * 0.6,
+                height: height * 0.75,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  child: Container(
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: height * 0.01,
+                        ),
+                        Text(
+                          "d".tr().toString(),
+                          style: TextStyle(
+                              color: Colors.blue[900],
+                              fontSize: height * 0.06,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "m".tr(),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: height * 0.025
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ],
+          )
         ],
       ),
     );

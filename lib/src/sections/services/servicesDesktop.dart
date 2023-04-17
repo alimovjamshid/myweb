@@ -1,8 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mywebsite/src/animations/bottomAnimation.dart';
 import 'package:mywebsite/src/utils/constants.dart';
 import 'package:mywebsite/src/widgets/serviceCard.dart';
+
+import '../../animations/entranceFader.dart';
 
 class ServiceDesktop extends StatelessWidget {
   @override
@@ -11,97 +14,65 @@ class ServiceDesktop extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     return Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: width * 0.02, vertical: height * 0.02),
+      height: height * 0.9,
+      width: width * 0.9,
+      color: Colors.grey[200],
       child: Column(
         children: [
-          Text(
-            "\nCe que je fais",
-            style: GoogleFonts.montserrat(
-              fontSize: height * 0.06,
-              fontWeight: FontWeight.w100,
-              letterSpacing: 1.0,
-            ),
+          SizedBox(
+            height: height * 0.1,
           ),
-          Text(
-            "Je ne suis peut-être pas parfait, mais je peux sûrement vous aider :)\n\n",
-            style: GoogleFonts.montserrat(fontWeight: FontWeight.w200),
-          ),
-          Column(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Row(
-                mainAxisAlignment: width < 1200
-                    ? MainAxisAlignment.spaceEvenly
-                    : MainAxisAlignment.center,
-                children: [
-                  WidgetAnimator(
-                    child: ServiceCard(
-                      cardWidth: width < 1200 ? width * 0.3 : width * 0.22,
-                      cardHeight: width < 1200 ? height * 0.4 : height * 0.35,
-                      serviceIcon: kServicesIcons[0],
-                      serviceTitle: kServicesTitles[0],
-                      serviceDescription: kServicesDescriptions[0],
-                      serviceLink: kServicesLinks[0],
+              Container(
+                width: width * 0.6,
+                height: height * 0.75,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  child: Container(
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: height * 0.01,
+                        ),
+                        Text(
+                          "c".tr().toString(),
+                          style: TextStyle(
+                              color: Colors.blue[900],
+                              fontSize: height * 0.06,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "l".tr().toString(),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: height * 0.025
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(
-                    width: width * 0.03,
-                  ),
-                  WidgetAnimator(
-                    child: ServiceCard(
-                      cardWidth: width < 1200 ? width * 0.3 : width * 0.22,
-                      cardHeight: width < 1200 ? height * 0.4 : height * 0.35,
-                      serviceIcon: kServicesIcons[1],
-                      serviceTitle: kServicesTitles[1],
-                      serviceDescription: kServicesDescriptions[1],
-                      serviceLink: kServicesLinks[1],
-                    ),
-                  ),
-                  SizedBox(
-                    width: width * 0.03,
-                  ),
-                  WidgetAnimator(
-                    child: ServiceCard(
-                      cardWidth: width < 1200 ? width * 0.3 : width * 0.22,
-                      cardHeight: width < 1200 ? height * 0.4 : height * 0.35,
-                      serviceIcon: kServicesIcons[2],
-                      serviceTitle: kServicesTitles[2],
-                      serviceDescription: kServicesDescriptions[2],
-                      serviceLink: kServicesLinks[2],
-                    ),
-                  ),
-                ],
+                ),
               ),
-              SizedBox(
-                height: height * 0.04,
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  WidgetAnimator(
-                    child: ServiceCard(
-                      cardWidth: width < 1200 ? width * 0.3 : width * 0.22,
-                      cardHeight: width < 1200 ? height * 0.4 : height * 0.35,
-                      serviceIcon: kServicesIcons[3],
-                      serviceTitle: kServicesTitles[3],
-                      serviceDescription: kServicesDescriptions[3],
-                      serviceLink: kServicesLinks[3],
-                    ),
-                  ),
-                  SizedBox(
-                    width: width * 0.03,
-                  ),
-                  WidgetAnimator(
-                    child: ServiceCard(
-                      cardWidth: width < 1200 ? width * 0.3 : width * 0.22,
-                      cardHeight: width < 1200 ? height * 0.4 : height * 0.35,
-                      serviceIcon: kServicesIcons[4],
-                      serviceTitle: kServicesTitles[4],
-                      serviceDescription: kServicesDescriptions[4],
-                      serviceLink: kServicesLinks[4],
-                    ),
-                  ),
-                ],
+              EntranceFader(
+                offset: Offset(-32,0),
+                delay: Duration(seconds: 2),
+                child: Container(
+                  width: width * 0.25,
+                  height: height * 0.45,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      child: Image.asset(
+                        "assets/b.jpg",
+                        fit: BoxFit.cover,
+                      )),
+                ),
               ),
             ],
           )

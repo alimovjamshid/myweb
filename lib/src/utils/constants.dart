@@ -1,24 +1,22 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // Colors
-Color kPrimaryColor = Color(0xff2191cc);
+Color kPrimaryColor = Color(0xff624a98);
+Color kBackround = Color(0xff4fbba5);
 
 // Social Media
 const kSocialIcons = [
-  "https://img.icons8.com/metro/208/ffffff/facebook-new--v2.png",
+  "https://img.icons8.com/ios-filled/250/ffffff/telegram.png",
+  "https://img.icons8.com/ios-glyphs/240/ffffff/whatsapp.png",
   "https://img.icons8.com/ios-glyphs/480/ffffff/instagram-new.png",
-  "https://img.icons8.com/android/480/ffffff/twitter.png",
-  "https://img.icons8.com/metro/308/ffffff/linkedin.png",
-  "https://img.icons8.com/material-rounded/384/ffffff/github.png",
 ];
 
 const kSocialLinks = [
-  "https://www.facebook.com/boris.tchoukouaha",
-  "https://www.instagram.com/boris.gauty/?hl=fr",
-  "https://twitter.com/Boris_Gauty",
-  "https://www.linkedin.com/in/boris-gautier-tchoukouaha-420262143/",
-  "https://github.com/BorisGautier",
+  "https://t.me/energytravel1",
+  "https://api.whatsapp.com/send?phone=998995198088",
+  "https://www.instagram.com/energytravel.uz/?hl=fr",
 ];
 
 // URL Launcher
@@ -163,14 +161,14 @@ final kContactIcons = [
   Icons.mail,
 ];
 
-final kContactTitles = [
-  "Localisation",
-  "Téléphone",
-  "Email",
+var kContactTitles = [
+  "e".tr().toString(),
+  "n".tr().toString(),
+  "o".tr().toString(),
 ];
 
-final kContactDetails = [
-  "Douala, Cameroun",
-  "(+237) 691 20 19 46",
-  "me@borisgauty.com"
+var kContactDetails = [
+  "p".tr().toString(),
+  "+99 8(99) 519 80 88",
+  "travel.energy@mail.ru"
 ];

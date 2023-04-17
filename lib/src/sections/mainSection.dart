@@ -1,4 +1,5 @@
 // ignore: avoid_web_libraries_in_flutter
+import 'package:easy_localization/easy_localization.dart';
 import 'package:mywebsite/src/animations/entranceFader.dart';
 import 'package:mywebsite/src/sections/about/about.dart';
 import 'package:mywebsite/src/sections/contact/contact.dart';
@@ -15,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-class MainPage extends StatefulWidget {
+class MainPage extends StatefulWidget  {
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -26,12 +27,12 @@ class _MainPageState extends State<MainPage> {
   ItemScrollController _itemScrollController = ItemScrollController();
   ItemPositionsListener _itemPositionListener = ItemPositionsListener.create();
 
-  final List<String> _sectionsName = [
-    "Accueil",
-    "A Propos",
-    "Mes Services",
-    "Mes Projets",
-    "Me Contacter"
+  List<String> _sectionsName = [
+    "h".tr().toString(),
+    "b".tr().toString(),
+    "c".tr().toString(),
+    "d".tr().toString(),
+    "j".tr().toString()
   ];
 
   final List<IconData> _sectionsIcons = [
@@ -75,12 +76,12 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: true,
       appBar: MediaQuery.of(context).size.width > 760
           ? PreferredSize(
               child: _appBarTabDesktop(),
-              preferredSize: const Size.fromHeight(100),
+              preferredSize: const Size.fromHeight(50),
             )
           : AppBar(
               backgroundColor: Colors.transparent,
@@ -107,7 +108,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Widget _appBarActions(String childText, int index, IconData icon) {
+  Widget _appBarActions(String childText, int index,) {
     return MediaQuery.of(context).size.width > 760
         ? EntranceFader(
             offset: Offset(0, -20),
@@ -120,7 +121,7 @@ class _MainPageState extends State<MainPage> {
                 onPressed: () => _scroll(index),
                 child: Text(
                   childText,
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.black,),
                 ),
               ),
             ),
@@ -131,10 +132,6 @@ class _MainPageState extends State<MainPage> {
                 hoverColor: kPrimaryColor,
                 onPressed: () => _scroll(index),
                 child: ListTile(
-                  leading: Icon(
-                    icon,
-                    color: kPrimaryColor,
-                  ),
                   title: Text(childText),
                 )),
           );
@@ -154,39 +151,45 @@ class _MainPageState extends State<MainPage> {
               offset: Offset(0, -20),
               duration: Duration(seconds: 1),
               delay: Duration(seconds: 3),
-              child: NavBarLogo(
-                height: MediaQuery.of(context).size.height * 0.035,
-              ),
+              // child: NavBarLogo(
+              //   height: MediaQuery.of(context).size.height * 0.035,
+              // ),
             ),
       actions: [
-        for (int i = 0; i < _sectionsName.length; i++)
-          _appBarActions(_sectionsName[i], i, _sectionsIcons[i]),
-        EntranceFader(
-          offset: Offset(0, -20),
-          delay: Duration(seconds: 3),
-          duration: Duration(seconds: 1),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: MaterialButton(
-              hoverColor: kPrimaryColor.withAlpha(150),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                  side: BorderSide(color: kPrimaryColor)),
-              onPressed: () {
-                html.window.open(
-                    'https://drive.google.com/file/d/1eupAzdc9zi1xfjDdUSEyD8RRwUYJTOeo/view?usp=sharing',
-                    "pdf");
-              },
-              child: Text(
-                "Mon CV",
-                style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w200,
-                ),
-              ),
-            ),
-          ),
-        ),
+        _appBarActions("h".tr().toString(),0 ,),
+        _appBarActions("b".tr().toString(),0 ,),
+        _appBarActions("c".tr().toString(),0 ,),
+        _appBarActions("d".tr().toString(),0 ,),
+        _appBarActions("j".tr().toString(),0 ,),
+        // for (int i = 0; i < _sectionsName.length; i++)
+        //   _appBarActions(_sectionsName[i], i, _sectionsIcons[i]),
+        // EntranceFader(
+        //   offset: Offset(0, -20),
+        //   delay: Duration(seconds: 3),
+        //   duration: Duration(seconds: 1),
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(8.0),
+        //     child: MaterialButton(
+        //       hoverColor: kPrimaryColor.withAlpha(150),
+        //       shape: RoundedRectangleBorder(
+        //           borderRadius: BorderRadius.circular(5.0),
+        //           side: BorderSide(color: kPrimaryColor)),
+        //       onPressed: () {
+        //         html.window.open(
+        //             'https://drive.google.com/file/d/1eupAzdc9zi1xfjDdUSEyD8RRwUYJTOeo/view?usp=sharing',
+        //             "pdf");
+        //       },
+        //       child: Text(
+        //         "Mon CV",
+        //         style: GoogleFonts.montserrat(
+        //           fontWeight: FontWeight.w200,
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ],
+
     );
   }
 
@@ -198,37 +201,42 @@ class _MainPageState extends State<MainPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: NavBarLogo(
-                height: 28,
-              ),
+              // child: NavBarLogo(
+              //   height: 28,
+              // ),
             ),
-            for (int i = 0; i < _sectionsName.length; i++)
-              _appBarActions(_sectionsName[i], i, _sectionsIcons[i]),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: MaterialButton(
-                hoverColor: kPrimaryColor.withAlpha(150),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                    side: BorderSide(color: kPrimaryColor)),
-                onPressed: () {
-                  launchURL(
-                      "https://drive.google.com/file/d/1HR3zyN0GORDQVkjezxlZ3_l0P6Z6w95k/view?usp=sharing");
-                },
-                child: ListTile(
-                  leading: Icon(
-                    Icons.book,
-                    color: Colors.red,
-                  ),
-                  title: Text(
-                    "Mon CV",
-                    style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w200,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            _appBarActions("h".tr().toString(),0 , ),
+            _appBarActions("b".tr().toString(),0 , ),
+            _appBarActions("c".tr().toString(),0 , ),
+            _appBarActions("d".tr().toString(),0 , ),
+            _appBarActions("j".tr().toString(),0 , ),
+            // for (int i = 0; i < _sectionsName.length; i++)
+            //   _appBarActions(_sectionsName[i], i, _sectionsIcons[i]),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: MaterialButton(
+            //     hoverColor: kPrimaryColor.withAlpha(150),
+            //     shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(5.0),
+            //         side: BorderSide(color: kPrimaryColor)),
+            //     onPressed: () {
+            //       launchURL(
+            //           "https://drive.google.com/file/d/1HR3zyN0GORDQVkjezxlZ3_l0P6Z6w95k/view?usp=sharing");
+            //     },
+            //     child: ListTile(
+            //       leading: Icon(
+            //         Icons.book,
+            //         color: Colors.red,
+            //       ),
+            //       title: Text(
+            //         "Mon CV",
+            //         style: GoogleFonts.montserrat(
+            //           fontWeight: FontWeight.w200,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
