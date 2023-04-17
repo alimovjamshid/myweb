@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mywebsite/src/animations/bottomAnimation.dart';
@@ -35,8 +36,8 @@ class ContactDesktop extends StatelessWidget {
                   cardWidth: width < 1200 ? width * 0.25 : width * 0.2,
                   cardHeight: width < 1200 ? height * 0.28 : height * 0.25,
                   projectIconData: kContactIcons[0],
-                  projectTitle: kContactTitles[0],
-                  projectDescription: kContactDetails[0],
+                  projectTitle: "e".tr().toString(),
+                  projectDescription: "p".tr().toString(),
                 ),
               ),
               SizedBox(
@@ -47,7 +48,7 @@ class ContactDesktop extends StatelessWidget {
                   cardWidth: width < 1200 ? width * 0.25 : width * 0.2,
                   cardHeight: width < 1200 ? height * 0.28 : height * 0.25,
                   projectIconData: kContactIcons[1],
-                  projectTitle: kContactTitles[1],
+                  projectTitle: "n".tr().toString(),
                   projectDescription: kContactDetails[1],
                 ),
               ),
@@ -59,7 +60,7 @@ class ContactDesktop extends StatelessWidget {
                   cardWidth: width < 1200 ? width * 0.25 : width * 0.2,
                   cardHeight: width < 1200 ? height * 0.28 : height * 0.25,
                   projectIconData: kContactIcons[2],
-                  projectTitle: kContactTitles[2],
+                  projectTitle: "o".tr().toString(),
                   projectDescription: kContactDetails[2],
                 ),
               ),

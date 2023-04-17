@@ -1,8 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mywebsite/src/utils/constants.dart';
 import 'package:mywebsite/src/widgets/serviceCard.dart';
+
+import '../../animations/entranceFader.dart';
 
 class ServiceMobile extends StatelessWidget {
   @override
@@ -10,42 +13,71 @@ class ServiceMobile extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Container(
+      width: width,
+      color: Colors.grey[200],
       child: Column(
         children: [
-          Text(
-            "\nCe que je fais",
-            style: GoogleFonts.montserrat(
-              fontSize: height * 0.06,
-              fontWeight: FontWeight.w100,
-              letterSpacing: 1.0,
-            ),
+          SizedBox(
+            height: height * 0.025,
           ),
-          Text(
-            "Je ne suis peut-être pas parfait, mais je peux sûrement vous aider :)\n\n",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.montserrat(fontWeight: FontWeight.w200),
-          ),
-          CarouselSlider.builder(
-            itemCount: 5,
-            itemBuilder: (BuildContext context, int itemIndex, int i) =>
-                Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: ServiceCard(
-                cardWidth: width < 650 ? width * 0.8 : width * 0.5,
-                serviceIcon: kServicesIcons[i],
-                serviceTitle: kServicesTitles[i],
-                serviceDescription: kServicesDescriptions[i],
-                serviceLink: kServicesLinks[i],
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              EntranceFader(
+                offset: Offset(-32,0),
+                delay: Duration(seconds: 2),
+                child: Container(
+                  width: width * 0.85,
+                  height: height * 0.25,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      child: Image.asset(
+                        "assets/b.jpg",
+                        fit: BoxFit.cover,
+                      )),
+                ),
               ),
-            ),
-            options: CarouselOptions(
-                height: height * 0.45,
-                autoPlay: true,
-                autoPlayInterval: Duration(seconds: 5),
-                enlargeCenterPage: true,
-                autoPlayCurve: Curves.fastOutSlowIn,
-                autoPlayAnimationDuration: Duration(milliseconds: 800),
-                enableInfiniteScroll: false),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: width * 0.9,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  child: Container(
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: height * 0.01,
+                        ),
+                        Text(
+                          "c".tr().toString(),
+                          style: TextStyle(
+                              color: Colors.blue[900],
+                              fontSize: height * 0.06,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "l".tr().toString(),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: height * 0.025
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              )
+            ],
           )
         ],
       ),

@@ -8,7 +8,7 @@ class Contact extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenTypeLayout(
       mobile: ContactMobileTab(),
-      tablet: ContactMobileTab(),
+      tablet: ContactDesktop(),
       desktop: ContactDesktop(),
     );
   }

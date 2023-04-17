@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mywebsite/src/sections/navBar/navBarLogo.dart';
@@ -5,6 +6,8 @@ import 'package:mywebsite/src/utils/constants.dart';
 import 'package:mywebsite/src/widgets/aboutMeText.dart';
 import 'package:mywebsite/src/widgets/communityIconBtn.dart';
 import 'package:mywebsite/src/widgets/toolsTech.dart';
+
+import '../../animations/entranceFader.dart';
 
 class AboutMobile extends StatelessWidget {
   final _communityLogoHeight = [50.0, 60.0, 30.0];
@@ -15,49 +18,69 @@ class AboutMobile extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     return Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: width * 0.02, vertical: height * 0.02),
-      color: Colors.grey[900],
+      width: width,
+      color: Colors.grey[200],
       child: Column(
         children: [
-          Text(
-            "A Propos de Moi",
-            style: GoogleFonts.montserrat(
-              fontSize: height * 0.06,
-              fontWeight: FontWeight.w100,
-              letterSpacing: 1.0,
-            ),
-          ),
-          SizedBox(
-            height: height * 0.05,
-          ),
-          AboutMeText(
-            textAlign: TextAlign.center,
-            fontSize: 13,
-          ),
-          SizedBox(
-            height: height * 0.03,
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              for (int i = 0; i < kCommunityLogo.length; i++)
-                CommunityIconBtn(
-                  icon: kCommunityLogo[i],
-                  link: kCommunityLinks[i],
-                  height: _communityLogoHeight[i],
-                ),
-            ],
-          ),
           SizedBox(
             height: height * 0.025,
           ),
-          ToolsTech(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              NavBarLogo(
-                height: height * 0.04,
+              EntranceFader(
+                offset: Offset(-32,0),
+                delay: Duration(seconds: 2),
+                child: Container(
+                  width: width * 0.85,
+                  height: height * 0.25,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      child: Image.asset(
+                        "assets/a.jpg",
+                        fit: BoxFit.cover,
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: width * 0.9,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  child: Container(
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: height * 0.01,
+                        ),
+                        Text(
+                          "b".tr().toString(),
+                          style: TextStyle(
+                              color: Colors.blue[900],
+                              fontSize: height * 0.06,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "k".tr().toString(),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: height * 0.025
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
               )
             ],
           )

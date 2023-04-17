@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mywebsite/src/animations/entranceFader.dart';
 import 'package:mywebsite/src/sections/navBar/navBarLogo.dart';
 import 'package:mywebsite/src/utils/constants.dart';
 import 'package:mywebsite/src/widgets/aboutMeText.dart';
@@ -7,7 +9,6 @@ import 'package:mywebsite/src/widgets/communityIconBtn.dart';
 import 'package:mywebsite/src/widgets/toolsTech.dart';
 
 class AboutDesktop extends StatelessWidget {
-  final _communityLogoHeight = [50.0, 70.0, 30.0];
 
   @override
   Widget build(BuildContext context) {
@@ -15,55 +16,65 @@ class AboutDesktop extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     return Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: width * 0.02, vertical: height * 0.02),
-      height: height,
-      color: Colors.grey[900],
+      width: width,
+      height: height * 0.9,
+      color: Colors.grey[200],
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "\nA Propos de Moi",
-            style: GoogleFonts.montserrat(
-              fontSize: height * 0.075,
-              fontWeight: FontWeight.w100,
-              letterSpacing: 1.0,
-            ),
-          ),
           SizedBox(
-            height: height * 0.05,
+            height: height * 0.1,
           ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Expanded(
-                flex: 3,
-                child: AboutMeText(
-                  fontSize: width <= 1100 ? 14 : 16,
+              EntranceFader(
+                offset: Offset(-32,0),
+                delay: Duration(seconds: 2),
+                child: Container(
+                  width: width * 0.25,
+                  height: height * 0.45,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                      child: Image.asset(
+                          "assets/a.jpg",
+                          fit: BoxFit.cover,
+                      )),
                 ),
               ),
-              (width <= 950 && width >= 1185)
-                  ? Container()
-                  : Expanded(child: Container()),
-              width >= 1185 ? Expanded(child: ToolsTech()) : ToolsTech()
-            ],
-          ),
-          SizedBox(
-            height: height * 0.055,
-          ),
-          Row(
-            children: [
-              for (int i = 0; i < kCommunityLogo.length; i++)
-                CommunityIconBtn(
-                  icon: kCommunityLogo[i],
-                  link: kCommunityLinks[i],
-                  height: _communityLogoHeight[i],
-                ),
-              Expanded(
-                child: Container(),
+              Container(
+                width: width * 0.6,
+                height: height * 0.75,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                  child: Container(
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: height * 0.01,
+                        ),
+                        Text(
+                          "b".tr().toString(),
+                          style: TextStyle(
+                              color: Colors.blue[900],
+                              fontSize: height * 0.06,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "k".tr().toString(),
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: height * 0.025
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
               ),
-              NavBarLogo(
-                height: height * 0.04,
               )
             ],
           )

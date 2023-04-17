@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -13,7 +14,7 @@ class Footer extends StatelessWidget {
       color: Colors.grey[900],
       child: Center(
         child: Text(
-          "© Tous droits reservés par Boris Gautier TCHOUKOUAHA",
+          "q".tr().toString(),
           style: GoogleFonts.montserrat(fontWeight: FontWeight.w100),
         ),
       ),
