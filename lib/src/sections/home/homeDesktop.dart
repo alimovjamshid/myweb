@@ -23,19 +23,20 @@ class HomeDesktop extends StatelessWidget {
     final TextEditingController _controllerPhone = new TextEditingController();
     final TextEditingController _controllerMessage = new TextEditingController();
 
-    Future<void> _sendEmail(String text,String phone, String name) async{
+    Future<void> _sendBot(String text,String phone, String name) async{
       try{
-        var userEmail = "testingprogram101@gmail.com";
-        var email = "jamshidalimov3464@gmail.com";
-        var message = Message();
-        message.subject = name;
-        message.text = "$phone\n\n" + text;
-        message.from = Address(email.toString());
-        message.recipients.add(email);
 
-        var smtpServer = gmailSaslXoauth2(email, "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");
-        send(message, smtpServer);
-        print("Succes");
+        var message = "Ism : ${_controllerName.text}\nTelefon : ${_controllerPhone.text}\nIzoh : ${_controllerMessage.text}";
+
+        Map<String,String> header={
+          "Content-Type" : "application/json",
+          "cache-control" : "no-cache"
+        };
+
+        final json = '{"chat_id":"-1001904001413","text":"$message"}';
+        
+        var responce = http.post(Uri.parse("https://api.telegram.org/bot5880434981:AAF9iuM0bwY953QOqN5MzWRNrMMrztZH9IE/sendMessage"),headers: header,body: json);
+        print(responce);
       }
       catch(e){
         print("xato");
@@ -97,7 +98,7 @@ class HomeDesktop extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pop();
                   debugPrint(_controllerName.text.toString());
-                  _sendEmail(_controllerMessage.text, _controllerPhone.text, _controllerName.text);
+                  _sendBot(_controllerMessage.text, _controllerPhone.text, _controllerName.text);
                 },
                 child: Text("u".tr().toString()),
               )
