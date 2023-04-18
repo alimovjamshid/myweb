@@ -161,6 +161,12 @@ final kContactIcons = [
   Icons.mail,
 ];
 
+final link = [
+  "https://www.google.com/maps?q=41.282339,69.250747&ll=41.282339,69.250747&z=16",
+  "tel:+998995198088",
+  "mailto:travel.energy@mail.ru?subject=Energy travel"
+];
+
 var kContactTitles = [
   "e".tr().toString(),
   "n".tr().toString(),

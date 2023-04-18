@@ -320,7 +320,7 @@ class _HomeMobileState extends State<HomeMobile> {
                   height: height * 0.05,
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, height * 0.05, 0),
+                  padding: EdgeInsets.fromLTRB(0, 0, height * 0.01, height * 0.01),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -351,21 +351,18 @@ class _HomeMobileState extends State<HomeMobile> {
                     icon: Image.asset(
                       "assets/uz.png",
                       height: height * 0.04,
-                      width: width * 0.04,
                     )),
                 IconButton(
                     onPressed: () => {context.locale = Locale('en', 'RU')},
                     icon: Image.asset(
                       "assets/ru.png",
                       height: height * 0.04,
-                      width: width * 0.04,
                     )),
                 IconButton(
                     onPressed: () => {context.locale = Locale('en', 'US')},
                     icon: Image.asset(
                       "assets/us.png",
                       height: height * 0.04,
-                      width: width * 0.04,
                     )),
               ],
             ),

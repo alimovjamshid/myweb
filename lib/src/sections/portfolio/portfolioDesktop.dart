@@ -15,7 +15,6 @@ class PortfolioDesktop extends StatelessWidget {
 
     return Container(
       width: width,
-      height: height * 0.9,
       color: Colors.grey[200],
       child: Column(
         children: [
@@ -41,7 +40,6 @@ class PortfolioDesktop extends StatelessWidget {
               ),
               Container(
                 width: width * 0.6,
-                height: height * 0.75,
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                   child: Container(
@@ -69,12 +67,18 @@ class PortfolioDesktop extends StatelessWidget {
                             ),
                           ),
                         ),
+                        SizedBox(
+                          height: 10,
+                        )
                       ],
                     ),
                   ),
                 ),
               )
             ],
+          ),
+          SizedBox(
+            height: 10,
           )
         ],
       ),

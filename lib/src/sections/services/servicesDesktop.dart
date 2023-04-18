@@ -15,7 +15,6 @@ class ServiceDesktop extends StatelessWidget {
 
     return Container(
       height: height * 0.9,
-      width: width * 0.9,
       color: Colors.grey[200],
       child: Column(
         children: [
@@ -27,7 +26,6 @@ class ServiceDesktop extends StatelessWidget {
             children: [
               Container(
                 width: width * 0.6,
-                height: height * 0.75,
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                   child: Container(
@@ -55,6 +53,9 @@ class ServiceDesktop extends StatelessWidget {
                             ),
                           ),
                         ),
+                        SizedBox(
+                          height: 10,
+                        )
                       ],
                     ),
                   ),
@@ -75,6 +76,9 @@ class ServiceDesktop extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          SizedBox(
+            height: 20,
           )
         ],
       ),
