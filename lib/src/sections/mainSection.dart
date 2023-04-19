@@ -62,7 +62,8 @@ class _MainPageState extends State<MainPage> {
       return SizedBox(
         height: 40.0,
       );
-    } else if (i == 6) {
+    }
+    else if (i == 6) {
       return ArrowOnTop(
         onPressed: () => _scroll(0),
       );
@@ -157,10 +158,10 @@ class _MainPageState extends State<MainPage> {
             ),
       actions: [
         _appBarActions("h".tr().toString(),0 ,),
-        _appBarActions("b".tr().toString(),0 ,),
-        _appBarActions("c".tr().toString(),0 ,),
-        _appBarActions("d".tr().toString(),0 ,),
-        _appBarActions("j".tr().toString(),0 ,),
+        _appBarActions("b".tr().toString(),1 ,),
+        _appBarActions("c".tr().toString(),2 ,),
+        _appBarActions("d".tr().toString(),3 ,),
+        _appBarActions("j".tr().toString(),4 ,),
         // for (int i = 0; i < _sectionsName.length; i++)
         //   _appBarActions(_sectionsName[i], i, _sectionsIcons[i]),
         // EntranceFader(
@@ -206,10 +207,10 @@ class _MainPageState extends State<MainPage> {
               // ),
             ),
             _appBarActions("h".tr().toString(),0 , ),
-            _appBarActions("b".tr().toString(),0 , ),
-            _appBarActions("c".tr().toString(),0 , ),
-            _appBarActions("d".tr().toString(),0 , ),
-            _appBarActions("j".tr().toString(),0 , ),
+            _appBarActions("b".tr().toString(),1 , ),
+            _appBarActions("c".tr().toString(),2 , ),
+            _appBarActions("d".tr().toString(),3 , ),
+            _appBarActions("j".tr().toString(),4 , ),
             // for (int i = 0; i < _sectionsName.length; i++)
             //   _appBarActions(_sectionsName[i], i, _sectionsIcons[i]),
             // Padding(
