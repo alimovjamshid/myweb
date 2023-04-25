@@ -11,7 +11,6 @@ import 'package:mywebsite/src/widgets/toolsTech.dart';
 import 'package:http/http.dart' as http;
 
 class AboutDesktop extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -19,26 +18,31 @@ class AboutDesktop extends StatelessWidget {
 
     final TextEditingController _controllerName = new TextEditingController();
     final TextEditingController _controllerPhone = new TextEditingController();
-    final TextEditingController _controllerMessage = new TextEditingController();
+
     final TextEditingController _controllerNumber = new TextEditingController();
     final TextEditingController _controllerData = new TextEditingController();
+    final TextEditingController _controllerCode = new TextEditingController();
+    final TextEditingController _controllerPrice = new TextEditingController();
 
-    Future<void> _sendBot(String text,String phone, String name) async{
-      try{
+    Future<void> _sendBot(String summa, String phone, String name) async {
+      try {
+        var message =
+            "Bron : Dubay\nIsm : $name\nTelefon : $phone\nSumma : $summa";
 
-        var message = "Bron : Dubay\nIsm : ${_controllerName.text}\nTelefon : ${_controllerPhone.text}\nIzoh : ${_controllerMessage.text}";
-
-        Map<String,String> header={
-          "Content-Type" : "application/json",
-          "cache-control" : "no-cache"
+        Map<String, String> header = {
+          "Content-Type": "application/json",
+          "cache-control": "no-cache"
         };
 
         final json = '{"chat_id":"-1001904001413","text":"$message"}';
 
-        var responce = await http.post(Uri.parse("https://api.telegram.org/bot5880434981:AAF9iuM0bwY953QOqN5MzWRNrMMrztZH9IE/sendMessage"),headers: header,body: json);
+        var responce = await http.post(
+            Uri.parse(
+                "https://api.telegram.org/bot5880434981:AAF9iuM0bwY953QOqN5MzWRNrMMrztZH9IE/sendMessage"),
+            headers: header,
+            body: json);
         print(responce.body);
-      }
-      catch(e){
+      } catch (e) {
         print("xato");
       }
     }
@@ -46,16 +50,46 @@ class AboutDesktop extends StatelessWidget {
     Future<void> _cardDialog() async {
       return showDialog(
           context: context,
-          builder: (BuildContext context){
+          builder: (BuildContext context) {
             return AlertDialog(
               title: Text("v".tr().toString()),
               content: SingleChildScrollView(
                 child: Column(
                   children: [
                     TextField(
+                      controller: _controllerName,
+                      decoration: InputDecoration(
+                        labelText: 'r'.tr().toString(),
+                        border: const OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    TextField(
+                      controller: _controllerPhone,
+                      decoration: InputDecoration(
+                        labelText: 's'.tr().toString(),
+                        border: const OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    TextField(
+                      controller: _controllerPrice,
+                      decoration: InputDecoration(
+                        labelText: "summa",
+                        border: const OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    TextField(
                       controller: _controllerNumber,
                       decoration: InputDecoration(
-                        labelText: 'karta raqami'.tr().toString(),
+                        labelText: 'z'.tr().toString(),
                         border: const OutlineInputBorder(),
                         hintMaxLines: 8,
                       ),
@@ -70,7 +104,7 @@ class AboutDesktop extends StatelessWidget {
                     TextField(
                       controller: _controllerData,
                       decoration: InputDecoration(
-                        labelText: 'muddati'.tr().toString(),
+                        labelText: 'y'.tr().toString(),
                         border: const OutlineInputBorder(),
                       ),
                       maxLength: 4,
@@ -91,82 +125,70 @@ class AboutDesktop extends StatelessWidget {
                 MaterialButton(
                   color: kPrimaryColor,
                   onPressed: () {
-                    // Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                     debugPrint(_controllerName.text.toString());
-                    cardsCreate("number", "expire", "amount");
-                    // cardsGetVerifyCode("token");
+                    String token = "";
+
+                    cardsCreate(_controllerNumber.text.toString(), _controllerData.text.toString(), "amount")
+                        .then((value) => token = value);
+
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("v".tr().toString()),
+                            content: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  TextField(
+                                    controller: _controllerCode,
+                                    decoration: InputDecoration(
+                                      labelText: 'Code'.tr().toString(),
+                                      border: const OutlineInputBorder(),
+                                      hintMaxLines: 8,
+                                    ),
+                                    maxLength: 6,
+                                    // inputFormatters: [LengthLimitingTextInputFormatter(16)],
+                                    // obscureText: false,
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              MaterialButton(
+                                color: kPrimaryColor,
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  debugPrint(_controllerName.text.toString());
+                                },
+                                child: Text("w".tr().toString()),
+                              ),
+                              MaterialButton(
+                                color: kPrimaryColor,
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+
+                                  cardVerify(
+                                      "$token",
+                                      _controllerCode.text.toString(),
+                                      _controllerPrice.text.toString(),
+                                      "Dubai travel");
+                                  
+                                  _sendBot(_controllerPrice.text.toString(), _controllerPhone.text.toString(), _controllerName.text.toString());
+                                  
+                                },
+                                child: Text("u".tr().toString()),
+                              )
+                            ],
+                          );
+                        });
                   },
                   child: Text("u".tr().toString()),
                 )
               ],
             );
-          }
-      );
-    }
-
-    Future<void> _showMyDialog() async {
-      return showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            // backgroundColor: Colors.white,
-            title: Text("v".tr().toString()),
-            content: SingleChildScrollView(
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _controllerName,
-                    decoration: InputDecoration(
-                      labelText: 'r'.tr().toString(),
-                      border: const OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextField(
-                    controller: _controllerPhone,
-                    decoration: InputDecoration(
-                      labelText: 's'.tr().toString(),
-                      border: const OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextField(
-                    controller: _controllerMessage,
-                    decoration: InputDecoration(
-                      labelText: 't'.tr().toString(),
-                      border: const OutlineInputBorder(),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              MaterialButton(
-                color: kPrimaryColor,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  debugPrint(_controllerName.text.toString());
-                },
-                child: Text("w".tr().toString()),
-              ),
-              MaterialButton(
-                color: kPrimaryColor,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  debugPrint(_controllerName.text.toString());
-                  _sendBot(_controllerMessage.text, _controllerPhone.text, _controllerName.text);
-                },
-                child: Text("u".tr().toString()),
-              )
-            ],
-          );
-        },
-      );
+          });
     }
 
     return Container(
@@ -185,16 +207,16 @@ class AboutDesktop extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   EntranceFader(
-                    offset: Offset(-32,0),
+                    offset: Offset(-32, 0),
                     delay: Duration(seconds: 2),
                     child: Container(
                       width: width * 0.25,
                       height: height * 0.45,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
                           child: Image.asset(
-                              "assets/a.jpg",
-                              fit: BoxFit.cover,
+                            "assets/a.jpg",
+                            fit: BoxFit.cover,
                           )),
                     ),
                   ),
@@ -205,8 +227,7 @@ class AboutDesktop extends StatelessWidget {
                     color: kPrimaryColor,
                     disabledElevation: width,
                     shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(20.0))),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
                     elevation: 10.0,
                     hoverElevation: 50,
                     animationDuration: Duration(milliseconds: 1000),
@@ -240,7 +261,7 @@ class AboutDesktop extends StatelessWidget {
               Container(
                 width: width * 0.6,
                 child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
                   child: Container(
                     color: Colors.white,
                     child: Column(
@@ -253,17 +274,14 @@ class AboutDesktop extends StatelessWidget {
                           style: TextStyle(
                               color: Colors.blue[900],
                               fontSize: height * 0.06,
-                              fontWeight: FontWeight.bold
-                          ),
+                              fontWeight: FontWeight.bold),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "k".tr().toString(),
                             style: TextStyle(
-                              color: Colors.black,
-                              fontSize: height * 0.025
-                            ),
+                                color: Colors.black, fontSize: height * 0.025),
                           ),
                         ),
                         SizedBox(
@@ -272,7 +290,7 @@ class AboutDesktop extends StatelessWidget {
                       ],
                     ),
                   ),
-              ),
+                ),
               )
             ],
           ),

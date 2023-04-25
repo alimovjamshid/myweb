@@ -170,19 +170,17 @@ final link = [
   "mailto:travel.energy@mail.ru?subject=Energy travel"
 ];
 
-cardsCreate(String number, String expire, String amount) async{
-
-    try {
+Future<String> cardsCreate(String number, String expire, String amount) async{
 
       Map<String, String> header = {
-        "X-Auth": "5e730e8e0b852a417aa49ceb",
-        "Cache-Control" : "no-cache",
-        "Content-Type" : "application/json",
+        "X-Auth": "64476364096a61fb42c24421"
       };
 
-      final jsBody = '{"id": 1,"method": "cards.create","params": {"card": {  "number": "8600069195406311",  "expire": "0399"  },  "amount" : 10000,  "save": true  }}';
+      final jsBody = '{"id": 1,"method": "cards.create","params": {"card": {  "number": "$number",  "expire": "$expire"  },  "amount" : 10000,  "save": true  }}';
 
-      var responce = await http.post("https://checkout.test.paycom.uz/api/" as Uri, headers: header,body: jsBody);
+      var responce = await http.post(Uri.parse("https://checkout.paycom.uz/api"), headers: header,body: utf8.encode(jsBody));
+      print(responce.toString());
+      print(responce.headers);
 
       var body = responce.body;
 
@@ -192,28 +190,35 @@ cardsCreate(String number, String expire, String amount) async{
 
       print(responce.body.toString());
 
-    }
-    catch (e){
-      debugPrint("aka xato");
-    }
+      print(result['card']['token']);
+
+      var token = result['card']['token'];
+
+      // cardsGetVerifyCode(token);
+
+    // cardVerify(token)
+
+      cardsGetVerifyCode(token);
+      //
+      return token;
+
 }
 
 cardsGetVerifyCode(String token) async {
+
   try {
 
     Map<String, String> header = {
-      "X-Auth": "5e730e8e0b852a417aa49ceb",
-      "Cache-Control" : "no-cache",
-      "Content-Type" : "application/json",
+      "X-Auth": "64476364096a61fb42c24421",
     };
 
-    final json = '{"id": 1,"method": "cards.get_verify_code","params": {"token": "644772fb890565aa4e37caf0_sPopjRzCXnqOgGF5WQU7ScPXvUiXDr7cGWjZEJFmE9iD1356hYnvmISuJzuYsakuIvm2qFv0UjJSD8UfrT0TJem4whmx14bJtoR8WQJyaOWcBOx1XT6KXPVfAHXKAj2ImyXKKUg6Dmo3I6xno8XBUfrVzQkG6roCnKOoIoXKepFnvfk8MD7mAsBZOiAy6PdoY2xQ4TkWJ9EiSsRtJ89qyFDFsvwo66IjQBztfyuumwDVZ6bjQCq91DqWCoY0M5eZpIkpP1nMvhysHhN9WJIo2nUczHNPtkr4ihTqh4yBIfvw5mbT8eZyhbXCa4iTfbGTJt4eTJgeu5CteyYcOzjDC1bqf4oMQQjyP5TjQAErE7tG9piOh8VM576apd0cQEuUiVPP9G"}}';
+    print("tokin $token");
 
-    var responce = await http.post(
-        Uri.parse("https://checkout.test.paycom.uz/api/"), headers: header,
-        body: json);
+    final json = '{"id": 1,"method": "cards.get_verify_code","params": {"token": "$token"}}';
 
-    debugPrint(responce.body.toString());
+    var responce = await http.post(Uri.parse("https://checkout.paycom.uz/api/"), headers: header,body: utf8.encode(json));
+
+    debugPrint(""+responce.body.toString());
 
   }
   catch (e){
@@ -221,28 +226,85 @@ cardsGetVerifyCode(String token) async {
   }
 }
 
-cardVerify(String token, String code) async {
-  try {
+Future<String> cardVerify(String token, String code,String price,String title) async {
 
     Map<String, String> header = {
-      "X-Auth": "5e730e8e0b852a417aa49ceb",
-      "Cache-Control" : "no-cache",
-      "Content-Type" : "application/json",
+      "X-Auth": "64476364096a61fb42c24421"
     };
 
-    final json = '{"id": 1,"method": "cards.verify","params": {"token": "644772fb890565aa4e37caf0_sPopjRzCXnqOgGF5WQU7ScPXvUiXDr7cGWjZEJFmE9iD1356hYnvmISuJzuYsakuIvm2qFv0UjJSD8UfrT0TJem4whmx14bJtoR8WQJyaOWcBOx1XT6KXPVfAHXKAj2ImyXKKUg6Dmo3I6xno8XBUfrVzQkG6roCnKOoIoXKepFnvfk8MD7mAsBZOiAy6PdoY2xQ4TkWJ9EiSsRtJ89qyFDFsvwo66IjQBztfyuumwDVZ6bjQCq91DqWCoY0M5eZpIkpP1nMvhysHhN9WJIo2nUczHNPtkr4ihTqh4yBIfvw5mbT8eZyhbXCa4iTfbGTJt4eTJgeu5CteyYcOzjDC1bqf4oMQQjyP5TjQAErE7tG9piOh8VM576apd0cQEuUiVPP9G","code": "666666"}}';
+    final json = '{"id": 1,"method": "cards.verify","params": {"token": "$token","code": "$code"}}';
+    print(json);
+    var responce = await http.post(Uri.parse("https://checkout.paycom.uz/api/"), headers: header,body: utf8.encode(json));
 
-    var responce = await http.post(
-        Uri.parse("https://checkout.test.paycom.uz/api/"), headers: header,
-        body: json);
+    debugPrint("cardverify"+responce.body.toString());
 
-    debugPrint(responce.body.toString());
+    receiptsCreate(title, price, token);
 
-  }
-  catch (e){
-    debugPrint("aka xato");
-  }
+  return responce.toString();
 }
+
+Future<String> cardsCheck(String token) async {
+
+  Map<String, String> header = {
+    "X-Auth": "64476364096a61fb42c24421",
+  };
+
+  final jsBody = '{"{"id": 1,"method": "cards.check","params": {"token": "$token"}}}';
+
+  var responce = await http.post(Uri.parse("https://checkout.paycom.uz/api/"), headers: header,body: utf8.encode(jsBody));
+
+  var body = responce.body;
+
+  return body;
+
+}
+
+Future<String> receiptsCreate(String title,String price,String token) async {
+  Map<String, String> header = {
+    "X-Auth": "64476364096a61fb42c24421",
+  };
+
+  var pr = int.parse(price);
+
+  pr*=100;
+
+  final jsBody = '{"id": 1,"method": "receipts.create","params": {"amount": $pr,"account": {"order_id": "100000"},"detail": {"receipt_type": 0,  "items": [  {"discount": 0,   "title": "$pr",    "price": $price,   "count": 1,   "units": 1495086,  "code": "10703999001000000",   "vat_percent": 0,   "package_code": "1495086"   }  ]  }  }}';
+
+  var responce = await http.post(Uri.parse("https://checkout.paycom.uz/api/"), headers: header,body: utf8.encode(jsBody));
+
+  var responceJson = json.decode(responce.body);
+
+  var result = responceJson['result'];
+
+  print("receiptcreate"+responce.body.toString());
+
+  var id = result['receipt']['_id'];
+
+  debugPrint(responce.body.toString());
+
+  print(" id : $id");
+
+  receiptsPay(id, token);
+
+  return id.toString();
+}
+
+Future<String> receiptsPay(String id, String token) async {
+  Map<String, String> header = {
+    "X-Auth": "64476364096a61fb42c24421:Qm7shU7M&tkYKI6DtkzHKEvoBQAwHxAVpm1V",
+  };
+
+  final json = '{"id": 1,  "method": "receipts.pay",  "params": {  "id": "$id",  "token": "$token"  }}';
+
+  var responce = await http.post(Uri.parse("https://checkout.paycom.uz/api/"), headers: header,body: utf8.encode(json));
+
+  debugPrint("receiptpay"+responce.body.toString());
+
+  return responce.statusCode.toString();
+}
+
+
+
 
 var kContactTitles = [
   "e".tr().toString(),
