@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mywebsite/src/animations/entranceFader.dart';
 import 'package:mywebsite/src/sections/navBar/navBarLogo.dart';
@@ -19,6 +20,8 @@ class AboutDesktop extends StatelessWidget {
     final TextEditingController _controllerName = new TextEditingController();
     final TextEditingController _controllerPhone = new TextEditingController();
     final TextEditingController _controllerMessage = new TextEditingController();
+    final TextEditingController _controllerNumber = new TextEditingController();
+    final TextEditingController _controllerData = new TextEditingController();
 
     Future<void> _sendBot(String text,String phone, String name) async{
       try{
@@ -32,12 +35,73 @@ class AboutDesktop extends StatelessWidget {
 
         final json = '{"chat_id":"-1001904001413","text":"$message"}';
 
-        var responce = http.post(Uri.parse("https://api.telegram.org/bot5880434981:AAF9iuM0bwY953QOqN5MzWRNrMMrztZH9IE/sendMessage"),headers: header,body: json);
-        print(responce);
+        var responce = await http.post(Uri.parse("https://api.telegram.org/bot5880434981:AAF9iuM0bwY953QOqN5MzWRNrMMrztZH9IE/sendMessage"),headers: header,body: json);
+        print(responce.body);
       }
       catch(e){
         print("xato");
       }
+    }
+
+    Future<void> _cardDialog() async {
+      return showDialog(
+          context: context,
+          builder: (BuildContext context){
+            return AlertDialog(
+              title: Text("v".tr().toString()),
+              content: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: _controllerNumber,
+                      decoration: InputDecoration(
+                        labelText: 'karta raqami'.tr().toString(),
+                        border: const OutlineInputBorder(),
+                        hintMaxLines: 8,
+                      ),
+                      maxLength: 16,
+                      // inputFormatters: [LengthLimitingTextInputFormatter(16)],
+                      // obscureText: false,
+                      keyboardType: TextInputType.number,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    TextField(
+                      controller: _controllerData,
+                      decoration: InputDecoration(
+                        labelText: 'muddati'.tr().toString(),
+                        border: const OutlineInputBorder(),
+                      ),
+                      maxLength: 4,
+                      keyboardType: TextInputType.number,
+                    )
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                MaterialButton(
+                  color: kPrimaryColor,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    debugPrint(_controllerName.text.toString());
+                  },
+                  child: Text("w".tr().toString()),
+                ),
+                MaterialButton(
+                  color: kPrimaryColor,
+                  onPressed: () {
+                    // Navigator.of(context).pop();
+                    debugPrint(_controllerName.text.toString());
+                    cardsCreate("number", "expire", "amount");
+                    // cardsGetVerifyCode("token");
+                  },
+                  child: Text("u".tr().toString()),
+                )
+              ],
+            );
+          }
+      );
     }
 
     Future<void> _showMyDialog() async {
@@ -149,7 +213,10 @@ class AboutDesktop extends StatelessWidget {
                     hoverColor: Colors.deepPurple,
                     height: height * 0.1,
                     enableFeedback: false,
-                    onPressed: () => {_showMyDialog()},
+                    onPressed: () => {
+                      // _showMyDialog()
+                      _cardDialog()
+                    },
                     autofocus: true,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

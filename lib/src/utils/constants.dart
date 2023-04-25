@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 // Colors
 Color kPrimaryColor = Color(0xff624a98);
@@ -167,6 +170,80 @@ final link = [
   "mailto:travel.energy@mail.ru?subject=Energy travel"
 ];
 
+cardsCreate(String number, String expire, String amount) async{
+
+    try {
+
+      Map<String, String> header = {
+        "X-Auth": "5e730e8e0b852a417aa49ceb",
+        "Cache-Control" : "no-cache",
+        "Content-Type" : "application/json",
+      };
+
+      final jsBody = '{"id": 1,"method": "cards.create","params": {"card": {  "number": "8600069195406311",  "expire": "0399"  },  "amount" : 10000,  "save": true  }}';
+
+      var responce = await http.post("https://checkout.test.paycom.uz/api/" as Uri, headers: header,body: jsBody);
+
+      var body = responce.body;
+
+      var responceJson = json.decode(body);
+
+      var result = responceJson['result'];
+
+      print(responce.body.toString());
+
+    }
+    catch (e){
+      debugPrint("aka xato");
+    }
+}
+
+cardsGetVerifyCode(String token) async {
+  try {
+
+    Map<String, String> header = {
+      "X-Auth": "5e730e8e0b852a417aa49ceb",
+      "Cache-Control" : "no-cache",
+      "Content-Type" : "application/json",
+    };
+
+    final json = '{"id": 1,"method": "cards.get_verify_code","params": {"token": "644772fb890565aa4e37caf0_sPopjRzCXnqOgGF5WQU7ScPXvUiXDr7cGWjZEJFmE9iD1356hYnvmISuJzuYsakuIvm2qFv0UjJSD8UfrT0TJem4whmx14bJtoR8WQJyaOWcBOx1XT6KXPVfAHXKAj2ImyXKKUg6Dmo3I6xno8XBUfrVzQkG6roCnKOoIoXKepFnvfk8MD7mAsBZOiAy6PdoY2xQ4TkWJ9EiSsRtJ89qyFDFsvwo66IjQBztfyuumwDVZ6bjQCq91DqWCoY0M5eZpIkpP1nMvhysHhN9WJIo2nUczHNPtkr4ihTqh4yBIfvw5mbT8eZyhbXCa4iTfbGTJt4eTJgeu5CteyYcOzjDC1bqf4oMQQjyP5TjQAErE7tG9piOh8VM576apd0cQEuUiVPP9G"}}';
+
+    var responce = await http.post(
+        Uri.parse("https://checkout.test.paycom.uz/api/"), headers: header,
+        body: json);
+
+    debugPrint(responce.body.toString());
+
+  }
+  catch (e){
+    debugPrint("aka xato");
+  }
+}
+
+cardVerify(String token, String code) async {
+  try {
+
+    Map<String, String> header = {
+      "X-Auth": "5e730e8e0b852a417aa49ceb",
+      "Cache-Control" : "no-cache",
+      "Content-Type" : "application/json",
+    };
+
+    final json = '{"id": 1,"method": "cards.verify","params": {"token": "644772fb890565aa4e37caf0_sPopjRzCXnqOgGF5WQU7ScPXvUiXDr7cGWjZEJFmE9iD1356hYnvmISuJzuYsakuIvm2qFv0UjJSD8UfrT0TJem4whmx14bJtoR8WQJyaOWcBOx1XT6KXPVfAHXKAj2ImyXKKUg6Dmo3I6xno8XBUfrVzQkG6roCnKOoIoXKepFnvfk8MD7mAsBZOiAy6PdoY2xQ4TkWJ9EiSsRtJ89qyFDFsvwo66IjQBztfyuumwDVZ6bjQCq91DqWCoY0M5eZpIkpP1nMvhysHhN9WJIo2nUczHNPtkr4ihTqh4yBIfvw5mbT8eZyhbXCa4iTfbGTJt4eTJgeu5CteyYcOzjDC1bqf4oMQQjyP5TjQAErE7tG9piOh8VM576apd0cQEuUiVPP9G","code": "666666"}}';
+
+    var responce = await http.post(
+        Uri.parse("https://checkout.test.paycom.uz/api/"), headers: header,
+        body: json);
+
+    debugPrint(responce.body.toString());
+
+  }
+  catch (e){
+    debugPrint("aka xato");
+  }
+}
+
 var kContactTitles = [
   "e".tr().toString(),
   "n".tr().toString(),
@@ -178,3 +255,4 @@ var kContactDetails = [
   "+99 8(99) 519 80 88",
   "travel.energy@mail.ru"
 ];
+
