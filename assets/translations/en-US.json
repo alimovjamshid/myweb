@@ -23,5 +23,7 @@
   "w": "Cancel",
   "x": "To order",
   "y": "Expiry date",
-  "z": "Card number"
+  "z": "Card number",
+  "aa": "Application accepted",
+  "ab": "Application not accepted"
 }

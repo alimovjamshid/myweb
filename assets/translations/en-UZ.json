@@ -2,7 +2,7 @@
   "a": "Biz bilan bog'lanish",
   "b": " Dubay",
   "c": " Turkiya",
-  "d": " Egipet",
+  "d": " Misr",
   "e": "Manzilimiz:",
   "f": "O'zbekiston, Toshkent:",
   "g": "Hoziroq qo'ng'iroq qiling:",
@@ -23,5 +23,7 @@
   "w": "Bekor qilish",
   "x": "Buyurtma qilish",
   "y": "Muddati",
-  "z": "Karta raqami"
+  "z": "Karta raqami",
+  "aa": "Ariza qabul qilindi",
+  "ab": "Ariza qabul qilinmadi"
 }

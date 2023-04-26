@@ -298,6 +298,13 @@ Future<String> receiptsPay(String id, String token) async {
 
   var responce = await http.post(Uri.parse("https://checkout.paycom.uz/api/"), headers: header,body: utf8.encode(json));
 
+  if(responce.statusCode == 200){
+    Fluttertoast.showToast(msg: 'aa'.tr().toString(),gravity: ToastGravity.TOP,fontSize: 18);
+  }
+  else{
+    Fluttertoast.showToast(msg: 'ab'.tr().toString(),gravity: ToastGravity.TOP,fontSize: 18);
+  }
+
   debugPrint("receiptpay"+responce.body.toString());
 
   return responce.statusCode.toString();
