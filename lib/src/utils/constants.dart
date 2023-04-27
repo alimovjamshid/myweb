@@ -192,9 +192,6 @@ Future<String> cardsCreate(String number, String expire, String amount) async{
 
     var token = result['card']['token'];
 
-    // cardsGetVerifyCode(token);
-
-    // cardVerify(token)
 
     cardsGetVerifyCode(token);
     //
