@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:mywebsite/src/animations/bottomAnimation.dart';
 import 'package:mywebsite/src/utils/constants.dart';
 import 'package:mywebsite/src/widgets/serviceCard.dart';
@@ -15,17 +16,18 @@ class ServiceDesktop extends StatelessWidget {
 
     final TextEditingController _controllerName = new TextEditingController();
     final TextEditingController _controllerPhone = new TextEditingController();
+    final TextEditingController _controllerMessage = new TextEditingController();
 
-    final TextEditingController _controllerNumber = new TextEditingController();
-    final TextEditingController _controllerData = new TextEditingController();
-    final TextEditingController _controllerCode = new TextEditingController();
-    final TextEditingController _controllerPrice = new TextEditingController();
+    var phonekFormatter = new MaskTextInputFormatter(
+        mask: '+## (###) ###-##-##',
+        filter: { "#": RegExp(r'[0-9]') },
+        type: MaskAutoCompletionType.lazy
+    );
 
     Future<void> _sendBot(String summa,String phone, String name) async{
       try{
 
-        var message =
-            "Bron : Turkiya\nIsm : $name\nTelefon : $phone\nSumma : $summa";
+        var message = "Ism : ${_controllerName.text}\nTelefon : ${_controllerPhone.text}\nIzoh : ${_controllerMessage.text}";
 
         Map<String,String> header={
           "Content-Type" : "application/json",
@@ -42,153 +44,71 @@ class ServiceDesktop extends StatelessWidget {
       }
     }
 
-    Future<void> _cardDialog() async {
-      return showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("v".tr().toString()),
-              content: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: _controllerName,
-                      decoration: InputDecoration(
-                        labelText: 'r'.tr().toString(),
-                        border: const OutlineInputBorder(),
-                      ),
+    Future<void> _showMyDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            // backgroundColor: Colors.white,
+            title: Text("v".tr().toString()),
+            content: SingleChildScrollView(
+              child: Column(
+                children: [
+                  TextField(
+                    controller: _controllerName,
+                    decoration: InputDecoration(
+                      labelText: 'r'.tr().toString(),
+                      border: const OutlineInputBorder(),
                     ),
-                    SizedBox(
-                      height: 15,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  TextField(
+                    controller: _controllerPhone,
+                    inputFormatters: [phonekFormatter],
+                    decoration: InputDecoration(
+                      labelText: 's'.tr().toString(),
+                      hintText: "+99 (899) 123-45-67",
+                      border: const OutlineInputBorder(),
                     ),
-                    TextField(
-                      controller: _controllerPhone,
-                      decoration: InputDecoration(
-                        labelText: 's'.tr().toString(),
-                        border: const OutlineInputBorder(),
-                      ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  TextField(
+                    controller: _controllerMessage,
+                    decoration: InputDecoration(
+                      labelText: 't'.tr().toString(),
+                      border: const OutlineInputBorder(),
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    TextField(
-                      controller: _controllerPrice,
-                      decoration: InputDecoration(
-                        labelText: "summa",
-                        border: const OutlineInputBorder(),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    TextField(
-                      controller: _controllerNumber,
-                      decoration: InputDecoration(
-                        labelText: 'z'.tr().toString(),
-                        border: const OutlineInputBorder(),
-                        hintMaxLines: 8,
-                      ),
-                      maxLength: 16,
-                      // inputFormatters: [LengthLimitingTextInputFormatter(16)],
-                      // obscureText: false,
-                      keyboardType: TextInputType.number,
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    TextField(
-                      controller: _controllerData,
-                      decoration: InputDecoration(
-                        labelText: 'y'.tr().toString(),
-                        border: const OutlineInputBorder(),
-                      ),
-                      maxLength: 4,
-                      keyboardType: TextInputType.number,
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
-              actions: <Widget>[
-                MaterialButton(
-                  color: kPrimaryColor,
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    debugPrint(_controllerName.text.toString());
-                  },
-                  child: Text("w".tr().toString()),
-                ),
-                MaterialButton(
-                  color: kPrimaryColor,
-                  onPressed: () async {
-                    Navigator.of(context).pop();
-                    debugPrint(_controllerName.text.toString());
-                    String token = "";
-
-                    token = await cardsCreate(_controllerNumber.text.toString(), _controllerData.text.toString(), "amount");
-
-
-                    print("objectjjhjhdas    dsadsasad $token");
-
-                    if(token != "null") {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text("v".tr().toString()),
-                              content: SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    TextField(
-                                      controller: _controllerCode,
-                                      decoration: InputDecoration(
-                                        labelText: 'Code'.tr().toString(),
-                                        border: const OutlineInputBorder(),
-                                        hintMaxLines: 8,
-                                      ),
-                                      maxLength: 6,
-                                      // inputFormatters: [LengthLimitingTextInputFormatter(16)],
-                                      // obscureText: false,
-                                      keyboardType: TextInputType.number,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              actions: <Widget>[
-                                MaterialButton(
-                                  color: kPrimaryColor,
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    debugPrint(_controllerName.text.toString());
-                                  },
-                                  child: Text("w".tr().toString()),
-                                ),
-                                MaterialButton(
-                                  color: kPrimaryColor,
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-
-                                    cardVerify(
-                                        "$token",
-                                        _controllerCode.text.toString(),
-                                        _controllerPrice.text.toString(),
-                                        "Turkey travel");
-
-                                    _sendBot(_controllerPrice.text.toString(),
-                                        _controllerPhone.text.toString(),
-                                        _controllerName.text.toString());
-                                  },
-                                  child: Text("u".tr().toString()),
-                                )
-                              ],
-                            );
-                          });
-                    }
-                  },
-                  child: Text("u".tr().toString()),
-                )
-              ],
-            );
-          });
+            ),
+            actions: <Widget>[
+              MaterialButton(
+                color: kPrimaryColor,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  debugPrint(_controllerName.text.toString());
+                },
+                child: Text("w".tr().toString()),
+              ),
+              MaterialButton(
+                color: kPrimaryColor,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  debugPrint(_controllerName.text.toString());
+                  _sendBot(_controllerMessage.text, _controllerPhone.text, _controllerName.text);
+                },
+                child: Text("u".tr().toString()),
+              )
+            ],
+          );
+        },
+      );
     }
 
     return Container(
@@ -272,7 +192,7 @@ class ServiceDesktop extends StatelessWidget {
                     hoverColor: Colors.deepPurple,
                     height: height * 0.1,
                     enableFeedback: false,
-                    onPressed: () => {_cardDialog()},
+                    onPressed: () => {_showMyDialog()},
                     autofocus: true,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

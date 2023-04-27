@@ -8,6 +8,7 @@ import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:mywebsite/src/animations/bottomAnimation.dart';
 import 'package:mywebsite/src/animations/entranceFader.dart';
 import 'package:mywebsite/src/utils/constants.dart';
@@ -22,6 +23,12 @@ class HomeDesktop extends StatelessWidget {
     final TextEditingController _controllerName = new TextEditingController();
     final TextEditingController _controllerPhone = new TextEditingController();
     final TextEditingController _controllerMessage = new TextEditingController();
+
+    var phonekFormatter = new MaskTextInputFormatter(
+        mask: '+## (###) ###-##-##',
+        filter: { "#": RegExp(r'[0-9]') },
+        type: MaskAutoCompletionType.lazy
+    );
 
     Future<void> _sendBot(String text,String phone, String name) async{
       try{
@@ -66,8 +73,10 @@ class HomeDesktop extends StatelessWidget {
                   ),
                   TextField(
                     controller: _controllerPhone,
+                    inputFormatters: [phonekFormatter],
                     decoration: InputDecoration(
                       labelText: 's'.tr().toString(),
+                      hintText: "+99 (899) 123-45-67",
                       border: const OutlineInputBorder(),
                     ),
                   ),

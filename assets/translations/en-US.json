@@ -1,8 +1,8 @@
 {
   "a": "Contact us",
-  "b": " Dubai",
-  "c": " Turkey",
-  "d": " Egypt",
+  "b": "Dubai",
+  "c": "Turkey",
+  "d": "Egypt",
   "e": "Our address:",
   "f": "Uzbekistan, Tashkent:",
   "g": "Call now:",
@@ -25,5 +25,6 @@
   "y": "Expiry date",
   "z": "Card number",
   "aa": "Application accepted",
-  "ab": "Application not accepted"
+  "ab": "Application not accepted",
+  "pay": "Online payment"
 }

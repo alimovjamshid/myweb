@@ -1,8 +1,8 @@
 {
   "a": "Biz bilan bog'lanish",
-  "b": " Dubay",
-  "c": " Turkiya",
-  "d": " Misr",
+  "b": "Dubay",
+  "c": "Turkiya",
+  "d": "Misr",
   "e": "Manzilimiz:",
   "f": "O'zbekiston, Toshkent:",
   "g": "Hoziroq qo'ng'iroq qiling:",
@@ -25,5 +25,6 @@
   "y": "Muddati",
   "z": "Karta raqami",
   "aa": "Ariza qabul qilindi",
-  "ab": "Ariza qabul qilinmadi"
+  "ab": "Ariza qabul qilinmadi",
+  "pay": "Onlayn to'lov"
 }
