@@ -198,7 +198,7 @@ Future<String> cardsCreate(String number, String expire, String amount) async{
     return token;
   }
   catch(e){
-    Fluttertoast.showToast(msg: "Error");
+    Fluttertoast.showToast(msg: "Error 404");
     return "null";
   }
 
