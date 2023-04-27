@@ -172,35 +172,38 @@ final link = [
 
 Future<String> cardsCreate(String number, String expire, String amount) async{
 
-      Map<String, String> header = {
-        "X-Auth": "64476364096a61fb42c24421"
-      };
+  try {
+    Map<String, String> header = {
+      "X-Auth": "64476364096a61fb42c24421"
+    };
 
-      final jsBody = '{"id": 1,"method": "cards.create","params": {"card": {  "number": "$number",  "expire": "$expire"  },  "amount" : 10000,  "save": true  }}';
+    final jsBody = '{"id": 1,"method": "cards.create","params": {"card": {  "number": "$number",  "expire": "$expire"  },  "amount" : 10000,  "save": true  }}';
 
-      var responce = await http.post(Uri.parse("https://checkout.paycom.uz/api"), headers: header,body: utf8.encode(jsBody));
-      print(responce.toString());
-      print(responce.headers);
+    var responce = await http.post(
+        Uri.parse("https://checkout.paycom.uz/api"), headers: header,
+        body: utf8.encode(jsBody));
 
-      var body = responce.body;
+    var body = responce.body;
 
-      var responceJson = json.decode(body);
+    var responceJson = json.decode(body);
 
-      var result = responceJson['result'];
+    var result = responceJson['result'];
 
-      print(responce.body.toString());
 
-      print(result['card']['token']);
+    var token = result['card']['token'];
 
-      var token = result['card']['token'];
-
-      // cardsGetVerifyCode(token);
+    // cardsGetVerifyCode(token);
 
     // cardVerify(token)
 
-      cardsGetVerifyCode(token);
-      //
-      return token;
+    cardsGetVerifyCode(token);
+    //
+    return token;
+  }
+  catch(e){
+    Fluttertoast.showToast(msg: "Error");
+    return "null";
+  }
 
 }
 

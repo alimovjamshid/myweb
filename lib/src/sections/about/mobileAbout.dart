@@ -123,65 +123,71 @@ class AboutMobile extends StatelessWidget {
                 ),
                 MaterialButton(
                   color: kPrimaryColor,
-                  onPressed: () {
+                  onPressed: () async {
                     Navigator.of(context).pop();
                     debugPrint(_controllerName.text.toString());
                     String token = "";
 
-                    cardsCreate(_controllerNumber.text.toString(), _controllerData.text.toString(), "amount")
-                        .then((value) => token = value);
+                    token = await cardsCreate(_controllerNumber.text.toString(), _controllerData.text.toString(), "amount");
 
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("v".tr().toString()),
-                            content: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  TextField(
-                                    controller: _controllerCode,
-                                    decoration: InputDecoration(
-                                      labelText: 'Code'.tr().toString(),
-                                      border: const OutlineInputBorder(),
-                                      hintMaxLines: 8,
+
+                    print("objectjjhjhdas    dsadsasad $token");
+
+                    if(token != "null") {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("v".tr().toString()),
+                              content: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    TextField(
+                                      controller: _controllerCode,
+                                      decoration: InputDecoration(
+                                        labelText: 'Code'.tr().toString(),
+                                        border: const OutlineInputBorder(),
+                                        hintMaxLines: 8,
+                                      ),
+                                      maxLength: 6,
+                                      // inputFormatters: [LengthLimitingTextInputFormatter(16)],
+                                      // obscureText: false,
+                                      keyboardType: TextInputType.number,
                                     ),
-                                    maxLength: 6,
-                                    // inputFormatters: [LengthLimitingTextInputFormatter(16)],
-                                    // obscureText: false,
-                                    keyboardType: TextInputType.number,
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            actions: <Widget>[
-                              MaterialButton(
-                                color: kPrimaryColor,
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  debugPrint(_controllerName.text.toString());
-                                },
-                                child: Text("w".tr().toString()),
-                              ),
-                              MaterialButton(
-                                color: kPrimaryColor,
-                                onPressed: () {
-                                  Navigator.of(context).pop();
+                              actions: <Widget>[
+                                MaterialButton(
+                                  color: kPrimaryColor,
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    debugPrint(_controllerName.text.toString());
+                                  },
+                                  child: Text("w".tr().toString()),
+                                ),
+                                MaterialButton(
+                                  color: kPrimaryColor,
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
 
-                                  cardVerify(
-                                      "$token",
-                                      _controllerCode.text.toString(),
-                                      _controllerPrice.text.toString(),
-                                      "Dubai travel");
+                                    cardVerify(
+                                        "$token",
+                                        _controllerCode.text.toString(),
+                                        _controllerPrice.text.toString(),
+                                        "Dubai travel");
 
-                                  _sendBot(_controllerPrice.text.toString(), _controllerPhone.text.toString(), _controllerName.text.toString());
+                                    _sendBot(_controllerPrice.text.toString(),
+                                        _controllerPhone.text.toString(),
+                                        _controllerName.text.toString());
+                                  },
+                                  child: Text("u".tr().toString()),
+                                )
+                              ],
+                            );
+                          });
+                    }
 
-                                },
-                                child: Text("u".tr().toString()),
-                              )
-                            ],
-                          );
-                        });
                   },
                   child: Text("u".tr().toString()),
                 )
