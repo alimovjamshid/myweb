@@ -91,7 +91,7 @@ class PaymeDekstop extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                            "zakaz",
+                            "pay".tr().toString(),
                           style: TextStyle(
                             color: Colors.blue,
                             fontSize: width * 0.035,
@@ -293,7 +293,7 @@ class PaymeDekstop extends StatelessWidget {
                                       ),
                                       maxLength: 6,
                                       // inputFormatters: [LengthLimitingTextInputFormatter(16)],
-                                      // obscureText: false,
+                                      obscureText: false,
                                       keyboardType: TextInputType.number,
                                     ),
                                   ],

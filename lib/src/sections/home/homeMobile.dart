@@ -4,6 +4,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
@@ -51,8 +52,11 @@ class _HomeMobileState extends State<HomeMobile> {
 
         var responce = http.post(Uri.parse("https://api.telegram.org/bot5880434981:AAF9iuM0bwY953QOqN5MzWRNrMMrztZH9IE/sendMessage"),headers: header,body: json);
         print(responce);
+
+        Fluttertoast.showToast(msg: "aa".tr().toString(),timeInSecForIosWeb: 5,gravity: ToastGravity.TOP);
       } catch (e) {
         print("xato");
+        Fluttertoast.showToast(msg: "ab".tr().toString(),timeInSecForIosWeb: 5,gravity: ToastGravity.TOP);
       }
     }
 

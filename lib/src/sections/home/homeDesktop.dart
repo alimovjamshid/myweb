@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -33,6 +34,8 @@ class HomeDesktop extends StatelessWidget {
     Future<void> _sendBot(String text,String phone, String name) async{
       try{
 
+        String responce = "";
+
         var message = "Ism : ${_controllerName.text}\nTelefon : ${_controllerPhone.text}\nIzoh : ${_controllerMessage.text}";
 
         Map<String,String> header={
@@ -42,11 +45,14 @@ class HomeDesktop extends StatelessWidget {
 
         final json = '{"chat_id":"-1001904001413","text":"$message"}';
         
-        var responce = http.post(Uri.parse("https://api.telegram.org/bot5880434981:AAF9iuM0bwY953QOqN5MzWRNrMMrztZH9IE/sendMessage"),headers: header,body: json);
-        print(responce);
+        http.post(Uri.parse("https://api.telegram.org/bot5880434981:AAF9iuM0bwY953QOqN5MzWRNrMMrztZH9IE/sendMessage"),headers: header,body: json).then((value) => responce = value.body.toString());
+        print("responce"+responce);
+
+        Fluttertoast.showToast(msg: "aa".tr().toString(),timeInSecForIosWeb: 5,gravity: ToastGravity.TOP);
       }
       catch(e){
         print("xato");
+        Fluttertoast.showToast(msg: "ab".tr().toString(),timeInSecForIosWeb: 5,gravity: ToastGravity.TOP);
       }
     }
 
