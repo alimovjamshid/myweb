@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 // Colors
 Color kPrimaryColor = Color(0xff624a98);
@@ -161,6 +164,155 @@ final kContactIcons = [
   Icons.mail,
 ];
 
+final link = [
+  "https://www.google.com/maps?q=41.282339,69.250747&ll=41.282339,69.250747&z=16",
+  "tel:+998995198088",
+  "mailto:travel.energy@mail.ru?subject=Energy travel"
+];
+
+Future<String> cardsCreate(String number, String expire, String amount) async{
+
+  try {
+    Map<String, String> header = {
+      "X-Auth": "64476364096a61fb42c24421"
+    };
+
+    final jsBody = '{"id": 1,"method": "cards.create","params": {"card": {  "number": "$number",  "expire": "$expire"  },  "amount" : 10000,  "save": true  }}';
+
+    var responce = await http.post(
+        Uri.parse("https://checkout.paycom.uz/api"), headers: header,
+        body: utf8.encode(jsBody));
+
+    var body = responce.body;
+
+    var responceJson = json.decode(body);
+
+    var result = responceJson['result'];
+
+
+    var token = result['card']['token'];
+
+
+    cardsGetVerifyCode(token);
+    //
+    return token;
+  }
+  catch(e){
+    Fluttertoast.showToast(msg: "Error 404",timeInSecForIosWeb: 5,gravity: ToastGravity.TOP);
+    return "null";
+  }
+
+}
+
+cardsGetVerifyCode(String token) async {
+
+  try {
+
+    Map<String, String> header = {
+      "X-Auth": "64476364096a61fb42c24421",
+    };
+
+    print("tokin $token");
+
+    final json = '{"id": 1,"method": "cards.get_verify_code","params": {"token": "$token"}}';
+
+    var responce = await http.post(Uri.parse("https://checkout.paycom.uz/api/"), headers: header,body: utf8.encode(json));
+
+    debugPrint(""+responce.body.toString());
+
+  }
+  catch (e){
+    debugPrint("aka xato");
+  }
+}
+
+Future<String> cardVerify(String token, String code,String price,String title) async {
+
+    Map<String, String> header = {
+      "X-Auth": "64476364096a61fb42c24421"
+    };
+
+    final json = '{"id": 1,"method": "cards.verify","params": {"token": "$token","code": "$code"}}';
+    print(json);
+    var responce = await http.post(Uri.parse("https://checkout.paycom.uz/api/"), headers: header,body: utf8.encode(json));
+
+    debugPrint("cardverify"+responce.body.toString());
+
+    receiptsCreate(title, price, token);
+
+  return responce.toString();
+}
+
+Future<String> cardsCheck(String token) async {
+
+  Map<String, String> header = {
+    "X-Auth": "64476364096a61fb42c24421",
+  };
+
+  final jsBody = '{"{"id": 1,"method": "cards.check","params": {"token": "$token"}}}';
+
+  var responce = await http.post(Uri.parse("https://checkout.paycom.uz/api/"), headers: header,body: utf8.encode(jsBody));
+
+  var body = responce.body;
+
+  return body;
+
+}
+
+Future<String> receiptsCreate(String title,String price,String token) async {
+  Map<String, String> header = {
+    "X-Auth": "64476364096a61fb42c24421",
+  };
+
+  var pr = int.parse(price);
+
+  pr*=100;
+
+  final jsBody = '{"id": 1,"method": "receipts.create","params": {"amount": $pr,"account": {"order_id": "100000"},"detail": {"receipt_type": 0,  "items": [  {"discount": 0,   "title": "$pr",    "price": $price,   "count": 1,   "units": 1495086,  "code": "10703999001000000",   "vat_percent": 0,   "package_code": "1495086"   }  ]  }  }}';
+
+  var responce = await http.post(Uri.parse("https://checkout.paycom.uz/api/"), headers: header,body: utf8.encode(jsBody));
+
+  var responceJson = json.decode(responce.body);
+
+  var result = responceJson['result'];
+
+  print("receiptcreate"+responce.body.toString());
+
+  var id = result['receipt']['_id'];
+
+  debugPrint(responce.body.toString());
+
+  print(" id : $id");
+
+  receiptsPay(id, token);
+
+  return id.toString();
+}
+
+Future<String> receiptsPay(String id, String token) async {
+  Map<String, String> header = {
+    "X-Auth": "64476364096a61fb42c24421:Qm7shU7M&tkYKI6DtkzHKEvoBQAwHxAVpm1V",
+  };
+
+  final json = '{"id": 1,  "method": "receipts.pay",  "params": {  "id": "$id",  "token": "$token"  }}';
+
+  var responce = await http.post(Uri.parse("https://checkout.paycom.uz/api/"), headers: header,body: utf8.encode(json));
+
+  if(responce.statusCode == 200){
+    Fluttertoast.showToast(msg: 'aa'.tr().toString(),gravity: ToastGravity.TOP,fontSize: 18,timeInSecForIosWeb: 5);
+  }
+  else{
+    Fluttertoast.showToast(msg: 'ab'.tr().toString(),gravity: ToastGravity.TOP,fontSize: 18,timeInSecForIosWeb: 5);
+  }
+
+  debugPrint("receiptpay"+responce.body.toString());
+
+  return responce.statusCode.toString();
+}
+
+
+
+
 var kContactTitles = [
   "e".tr().toString(),
   "n".tr().toString(),
@@ -172,3 +324,4 @@ var kContactDetails = [
   "+99 8(99) 519 80 88",
   "travel.energy@mail.ru"
 ];
+

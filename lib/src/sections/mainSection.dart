@@ -5,6 +5,7 @@ import 'package:mywebsite/src/sections/about/about.dart';
 import 'package:mywebsite/src/sections/contact/contact.dart';
 import 'package:mywebsite/src/sections/home/home.dart';
 import 'package:mywebsite/src/sections/navBar/navBarLogo.dart';
+import 'package:mywebsite/src/sections/pay/Payme.dart';
 import 'package:mywebsite/src/sections/portfolio/portfolio.dart';
 import 'package:mywebsite/src/sections/services/services.dart';
 import 'package:mywebsite/src/utils/constants.dart';
@@ -56,17 +57,21 @@ class _MainPageState extends State<MainPage> {
       return Services();
     } else if (i == 3) {
       return Portfolio();
-    } else if (i == 4) {
-      return Contact();
     } else if (i == 5) {
+      return Contact();
+    } else if (i == 4) {
+      return Payme();
+    }
+    else if(i==6){
       return SizedBox(
         height: 40.0,
       );
-    } else if (i == 6) {
+    }
+    else if (i == 7) {
       return ArrowOnTop(
         onPressed: () => _scroll(0),
       );
-    } else if (i == 7) {
+    } else if (i == 8) {
       return Footer();
     } else {
       return Container();
@@ -157,10 +162,11 @@ class _MainPageState extends State<MainPage> {
             ),
       actions: [
         _appBarActions("h".tr().toString(),0 ,),
-        _appBarActions("b".tr().toString(),0 ,),
-        _appBarActions("c".tr().toString(),0 ,),
-        _appBarActions("d".tr().toString(),0 ,),
-        _appBarActions("j".tr().toString(),0 ,),
+        _appBarActions("b".tr().toString(),1 ,),
+        _appBarActions("c".tr().toString(),2 ,),
+        _appBarActions("d".tr().toString(),3 ,),
+        _appBarActions("pay".tr().toString(), 4),
+        _appBarActions("j".tr().toString(),5 ,),
         // for (int i = 0; i < _sectionsName.length; i++)
         //   _appBarActions(_sectionsName[i], i, _sectionsIcons[i]),
         // EntranceFader(
@@ -206,10 +212,11 @@ class _MainPageState extends State<MainPage> {
               // ),
             ),
             _appBarActions("h".tr().toString(),0 , ),
-            _appBarActions("b".tr().toString(),0 , ),
-            _appBarActions("c".tr().toString(),0 , ),
-            _appBarActions("d".tr().toString(),0 , ),
-            _appBarActions("j".tr().toString(),0 , ),
+            _appBarActions("b".tr().toString(),1 , ),
+            _appBarActions("c".tr().toString(),2 , ),
+            _appBarActions("d".tr().toString(),3 , ),
+            _appBarActions("pay".tr().toString(), 4),
+            _appBarActions("j".tr().toString(),5 ),
             // for (int i = 0; i < _sectionsName.length; i++)
             //   _appBarActions(_sectionsName[i], i, _sectionsIcons[i]),
             // Padding(

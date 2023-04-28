@@ -4,14 +4,17 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:mywebsite/src/utils/constants.dart';
 import 'package:mywebsite/src/widgets/socialMediaIcon.dart';
 
 import '../../animations/bottomAnimation.dart';
 import '../../animations/entranceFader.dart';
+import 'package:http/http.dart' as http;
 
 class HomeMobile extends StatefulWidget {
   @override
@@ -29,22 +32,31 @@ class _HomeMobileState extends State<HomeMobile> {
     final TextEditingController _controllerMessage =
         new TextEditingController();
 
+    var phonekFormatter = new MaskTextInputFormatter(
+        mask: '+## (###) ###-##-##',
+        filter: { "#": RegExp(r'[0-9]') },
+        type: MaskAutoCompletionType.lazy
+    );
+
     Future<void> _sendEmail(String text, String phone, String name) async {
       try {
-        var userEmail = "testingprogram101@gmail.com";
-        var email = "jamshidalimov3464@gmail.com";
-        var message = Message();
-        message.subject = name;
-        message.text = "$phone\n\n" + text;
-        message.from = Address(email.toString());
-        message.recipients.add(email);
 
-        var smtpServer =
-            gmailSaslXoauth2(email, "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");
-        send(message, smtpServer);
-        print("Succes");
+        var message = "Ism : ${_controllerName.text}\nTelefon : ${_controllerPhone.text}\nIzoh : ${_controllerMessage.text}";
+
+        Map<String,String> header={
+          "Content-Type" : "application/json",
+          "cache-control" : "no-cache"
+        };
+
+        final json = '{"chat_id":"-1001904001413","text":"$message"}';
+
+        var responce = http.post(Uri.parse("https://api.telegram.org/bot5880434981:AAF9iuM0bwY953QOqN5MzWRNrMMrztZH9IE/sendMessage"),headers: header,body: json);
+        print(responce);
+
+        Fluttertoast.showToast(msg: "aa".tr().toString(),timeInSecForIosWeb: 5,gravity: ToastGravity.TOP);
       } catch (e) {
         print("xato");
+        Fluttertoast.showToast(msg: "ab".tr().toString(),timeInSecForIosWeb: 5,gravity: ToastGravity.TOP);
       }
     }
 
@@ -71,8 +83,10 @@ class _HomeMobileState extends State<HomeMobile> {
                   ),
                   TextField(
                     controller: _controllerPhone,
+                    inputFormatters: [phonekFormatter],
                     decoration: InputDecoration(
                       labelText: 's'.tr().toString(),
+                      hintText: "+99 (899) 123-45-67",
                       border: const OutlineInputBorder(),
                     ),
                   ),
@@ -319,7 +333,7 @@ class _HomeMobileState extends State<HomeMobile> {
                   height: height * 0.05,
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, height * 0.05, 0),
+                  padding: EdgeInsets.fromLTRB(0, 0, height * 0.01, height * 0.01),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -350,21 +364,18 @@ class _HomeMobileState extends State<HomeMobile> {
                     icon: Image.asset(
                       "assets/uz.png",
                       height: height * 0.04,
-                      width: width * 0.04,
                     )),
                 IconButton(
                     onPressed: () => {context.locale = Locale('en', 'RU')},
                     icon: Image.asset(
                       "assets/ru.png",
                       height: height * 0.04,
-                      width: width * 0.04,
                     )),
                 IconButton(
                     onPressed: () => {context.locale = Locale('en', 'US')},
                     icon: Image.asset(
                       "assets/us.png",
                       height: height * 0.04,
-                      width: width * 0.04,
                     )),
               ],
             ),

@@ -8,7 +8,7 @@ class Services extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenTypeLayout(
       mobile: ServiceMobile(),
-      tablet: ServiceMobile(),
+      tablet: ServiceDesktop(),
       desktop: ServiceDesktop(),
     );
   }
