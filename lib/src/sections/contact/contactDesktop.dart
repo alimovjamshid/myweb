@@ -38,6 +38,7 @@ class ContactDesktop extends StatelessWidget {
                   projectIconData: kContactIcons[0],
                   projectTitle: "e".tr().toString(),
                   projectDescription: "p".tr().toString(),
+                  projectLink: link[0],
                 ),
               ),
               SizedBox(
@@ -50,6 +51,7 @@ class ContactDesktop extends StatelessWidget {
                   projectIconData: kContactIcons[1],
                   projectTitle: "n".tr().toString(),
                   projectDescription: kContactDetails[1],
+                  projectLink: link[1],
                 ),
               ),
               SizedBox(
@@ -62,6 +64,7 @@ class ContactDesktop extends StatelessWidget {
                   projectIconData: kContactIcons[2],
                   projectTitle: "o".tr().toString(),
                   projectDescription: kContactDetails[2],
+                  projectLink: link[2],
                 ),
               ),
             ],

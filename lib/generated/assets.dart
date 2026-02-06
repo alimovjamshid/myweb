@@ -13,6 +13,7 @@ class Assets {
   static const String assetsFcmr = 'assets/fcmr.png';
   static const String assetsHi = 'assets/hi.gif';
   static const String assetsLogogeo = 'assets/logogeo.png';
+  static const String assetsPay = 'assets/pay.jpg';
   static const String assetsPosition = 'assets/position.png';
   static const String assetsProjects11 = 'assets/projects/11.png';
   static const String assetsRu = 'assets/ru.png';

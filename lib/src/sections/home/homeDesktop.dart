@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -8,107 +9,147 @@ import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:mywebsite/src/animations/bottomAnimation.dart';
 import 'package:mywebsite/src/animations/entranceFader.dart';
 import 'package:mywebsite/src/utils/constants.dart';
 import 'package:mywebsite/src/widgets/socialMediaIcon.dart';
 
-class HomeDesktop extends StatelessWidget {
+class HomeDesktop extends StatefulWidget {
+  @override
+  State<HomeDesktop> createState() => _HomeDesktopState();
+}
+
+class _HomeDesktopState extends State<HomeDesktop> {
+  final TextEditingController _controllerName = new TextEditingController();
+  final TextEditingController _controllerPhone = new TextEditingController();
+  final TextEditingController _controllerMessage = new TextEditingController();
+
+  var phonekFormatter = new MaskTextInputFormatter(
+      mask: '+## (###) ###-##-##',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: MaskAutoCompletionType.lazy);
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controllerName.dispose();
+    _controllerPhone.dispose();
+    _controllerMessage.dispose();
+  }
+
+  Future<void> _sendBot(String text, String phone, String name) async {
+    try {
+      String responce = "";
+
+      var message =
+          "Ism : ${_controllerName.text}\nTelefon : ${_controllerPhone.text}\nIzoh : ${_controllerMessage.text}";
+
+      Map<String, String> header = {
+        "Content-Type": "application/json",
+        "cache-control": "no-cache"
+      };
+
+      final json = '{"chat_id":"-1001904001413","text":"$message"}';
+
+      http
+          .post(
+              Uri.parse(
+                  "https://api.telegram.org/bot5880434981:AAF9iuM0bwY953QOqN5MzWRNrMMrztZH9IE/sendMessage"),
+              headers: header,
+              body: json)
+          .then((value) => responce = value.body.toString());
+      print("responce" + responce);
+
+      Fluttertoast.showToast(
+          msg: "aa".tr().toString(),
+          timeInSecForIosWeb: 5,
+          gravity: ToastGravity.TOP);
+    } catch (e) {
+      print("xato");
+      Fluttertoast.showToast(
+          msg: "ab".tr().toString(),
+          timeInSecForIosWeb: 5,
+          gravity: ToastGravity.TOP);
+    }
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          // backgroundColor: Colors.white,
+          title: Text("v".tr().toString()),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextField(
+                  controller: _controllerName,
+                  decoration: InputDecoration(
+                    labelText: 'r'.tr().toString(),
+                    border: const OutlineInputBorder(),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                TextField(
+                  controller: _controllerPhone,
+                  inputFormatters: [phonekFormatter],
+                  decoration: InputDecoration(
+                    labelText: 's'.tr().toString(),
+                    hintText: "+99 (899) 123-45-67",
+                    border: const OutlineInputBorder(),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                TextField(
+                  controller: _controllerMessage,
+                  decoration: InputDecoration(
+                    labelText: 't'.tr().toString(),
+                    border: const OutlineInputBorder(),
+                  ),
+                )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            MaterialButton(
+              color: kPrimaryColor,
+              onPressed: () {
+                Navigator.of(context).pop();
+                debugPrint(_controllerName.text.toString());
+              },
+              child: Text("w".tr().toString()),
+            ),
+            MaterialButton(
+              color: kPrimaryColor,
+              onPressed: () {
+                Navigator.of(context).pop();
+                debugPrint(_controllerName.text.toString());
+                _sendBot(_controllerMessage.text, _controllerPhone.text,
+                    _controllerName.text);
+              },
+              child: Text("u".tr().toString()),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    final TextEditingController _controllerName = new TextEditingController();
-    final TextEditingController _controllerPhone = new TextEditingController();
-    final TextEditingController _controllerMessage = new TextEditingController();
-
-    Future<void> _sendEmail(String text,String phone, String name) async{
-      try{
-        var userEmail = "testingprogram101@gmail.com";
-        var email = "jamshidalimov3464@gmail.com";
-        var message = Message();
-        message.subject = name;
-        message.text = "$phone\n\n" + text;
-        message.from = Address(email.toString());
-        message.recipients.add(email);
-
-        var smtpServer = gmailSaslXoauth2(email, "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");
-        send(message, smtpServer);
-        print("Succes");
-      }
-      catch(e){
-        print("xato");
-      }
-    }
-
-    Future<void> _showMyDialog() async {
-      return showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            // backgroundColor: Colors.white,
-            title: Text("v".tr().toString()),
-            content: SingleChildScrollView(
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _controllerName,
-                    decoration: InputDecoration(
-                      labelText: 'r'.tr().toString(),
-                      border: const OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextField(
-                    controller: _controllerPhone,
-                    decoration: InputDecoration(
-                      labelText: 's'.tr().toString(),
-                      border: const OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextField(
-                    controller: _controllerMessage,
-                    decoration: InputDecoration(
-                      labelText: 't'.tr().toString(),
-                      border: const OutlineInputBorder(),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              MaterialButton(
-                color: kPrimaryColor,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  debugPrint(_controllerName.text.toString());
-                },
-                child: Text("w".tr().toString()),
-              ),
-              MaterialButton(
-                color: kPrimaryColor,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  debugPrint(_controllerName.text.toString());
-                  _sendEmail(_controllerMessage.text, _controllerPhone.text, _controllerName.text);
-                },
-                child: Text("u".tr().toString()),
-              )
-            ],
-          );
-        },
-      );
-    }
-
     return Container(
-      height: height * 0.9,
+      // height: height * 0.9,
+      constraints: BoxConstraints(minHeight: height * 0.9),
       width: width,
       child: Stack(
         children: [
@@ -312,24 +353,24 @@ class HomeDesktop extends StatelessWidget {
                 SizedBox(
                   height: height * 0.05,
                 ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, height * 0.05, 0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      for (int i = 0; i < kSocialIcons.length; i++)
-                        WidgetAnimator(
-                          child: SocialMediaIconBtn(
-                            icon: kSocialIcons[i],
-                            socialLink: kSocialLinks[i],
-                            height: height * 0.035,
-                            horizontalPadding: width * 0.005,
-                          ),
-                        )
-                    ],
-                  ),
-                )
+                // Padding(
+                //   padding: EdgeInsets.fromLTRB(0, 0, height * 0.05, 0),
+                //   child: Row(
+                //     crossAxisAlignment: CrossAxisAlignment.end,
+                //     mainAxisAlignment: MainAxisAlignment.end,
+                //     children: [
+                //       for (int i = 0; i < kSocialIcons.length; i++)
+                //         WidgetAnimator(
+                //           child: SocialMediaIconBtn(
+                //             icon: kSocialIcons[i],
+                //             socialLink: kSocialLinks[i],
+                //             height: height * 0.035,
+                //             horizontalPadding: width * 0.005,
+                //           ),
+                //         )
+                //     ],
+                //   ),
+                // )
               ],
             ),
           ),

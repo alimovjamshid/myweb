@@ -8,7 +8,7 @@ class Portfolio extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenTypeLayout(
       mobile: PortfolioMobileTab(),
-      tablet: PortfolioMobileTab(),
+      tablet: PortfolioDesktop(),
       desktop: PortfolioDesktop(),
     );
   }

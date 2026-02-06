@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: kPrimaryColor,
-        accentColor: kPrimaryColor,
+        // accentColor: kPrimaryColor,
         // fontFamily: "Montserrat",
         highlightColor: kPrimaryColor,
       ),
