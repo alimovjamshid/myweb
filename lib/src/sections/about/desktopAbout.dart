@@ -13,113 +13,134 @@ import 'package:mywebsite/src/widgets/communityIconBtn.dart';
 import 'package:mywebsite/src/widgets/toolsTech.dart';
 import 'package:http/http.dart' as http;
 
-class AboutDesktop extends StatelessWidget {
+class AboutDesktop extends StatefulWidget {
+  @override
+  State<AboutDesktop> createState() => _AboutDesktopState();
+}
+
+class _AboutDesktopState extends State<AboutDesktop> {
+
+  final TextEditingController _controllerName = new TextEditingController();
+  final TextEditingController _controllerPhone = new TextEditingController();
+  final TextEditingController _controllerMessage = new TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controllerName.dispose();
+    _controllerPhone.dispose();
+    _controllerMessage.dispose();
+  }
+
+  var phonekFormatter = new MaskTextInputFormatter(
+      mask: '+## (###) ###-##-##',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: MaskAutoCompletionType.lazy);
+
+  Future<void> _sendBot(String summa, String phone, String name) async {
+    try {
+      var message =
+          "Ism : ${_controllerName.text}\nTelefon : ${_controllerPhone.text}\nIzoh : ${_controllerMessage.text}";
+
+      Map<String, String> header = {
+        "Content-Type": "application/json",
+        "cache-control": "no-cache"
+      };
+
+      final json = '{"chat_id":"-1001904001413","text":"$message"}';
+
+      var responce = await http.post(
+          Uri.parse(
+              "https://api.telegram.org/bot5880434981:AAF9iuM0bwY953QOqN5MzWRNrMMrztZH9IE/sendMessage"),
+          headers: header,
+          body: json);
+      print(responce.body);
+
+      Fluttertoast.showToast(
+          msg: "aa".tr().toString(),
+          timeInSecForIosWeb: 5,
+          gravity: ToastGravity.TOP);
+    } catch (e) {
+      print("xato");
+      Fluttertoast.showToast(
+          msg: "ab".tr().toString(),
+          timeInSecForIosWeb: 5,
+          gravity: ToastGravity.TOP);
+    }
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          // backgroundColor: Colors.white,
+          title: Text("v".tr().toString()),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextField(
+                  controller: _controllerName,
+                  decoration: InputDecoration(
+                    labelText: 'r'.tr().toString(),
+                    border: const OutlineInputBorder(),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                TextField(
+                  controller: _controllerPhone,
+                  inputFormatters: [phonekFormatter],
+                  decoration: InputDecoration(
+                    labelText: 's'.tr().toString(),
+                    hintText: "+99 (899) 123-45-67",
+                    border: const OutlineInputBorder(),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                TextField(
+                  controller: _controllerMessage,
+                  decoration: InputDecoration(
+                    labelText: 't'.tr().toString(),
+                    border: const OutlineInputBorder(),
+                  ),
+                )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            MaterialButton(
+              color: kPrimaryColor,
+              onPressed: () {
+                Navigator.of(context).pop();
+                debugPrint(_controllerName.text.toString());
+              },
+              child: Text("w".tr().toString()),
+            ),
+            MaterialButton(
+              color: kPrimaryColor,
+              onPressed: () {
+                Navigator.of(context).pop();
+                debugPrint(_controllerName.text.toString());
+                _sendBot(_controllerMessage.text, _controllerPhone.text,
+                    _controllerName.text);
+              },
+              child: Text("u".tr().toString()),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-
-    final TextEditingController _controllerName = new TextEditingController();
-    final TextEditingController _controllerPhone = new TextEditingController();
-    final TextEditingController _controllerMessage = new TextEditingController();
-
-    var phonekFormatter = new MaskTextInputFormatter(
-        mask: '+## (###) ###-##-##',
-        filter: { "#": RegExp(r'[0-9]') },
-        type: MaskAutoCompletionType.lazy
-    );
-
-    Future<void> _sendBot(String summa, String phone, String name) async {
-      try {
-        var message = "Ism : ${_controllerName.text}\nTelefon : ${_controllerPhone.text}\nIzoh : ${_controllerMessage.text}";
-
-        Map<String, String> header = {
-          "Content-Type": "application/json",
-          "cache-control": "no-cache"
-        };
-
-        final json = '{"chat_id":"-1001904001413","text":"$message"}';
-
-        var responce = await http.post(
-            Uri.parse(
-                "https://api.telegram.org/bot5880434981:AAF9iuM0bwY953QOqN5MzWRNrMMrztZH9IE/sendMessage"),
-            headers: header,
-            body: json);
-        print(responce.body);
-
-        Fluttertoast.showToast(msg: "aa".tr().toString(),timeInSecForIosWeb: 5,gravity: ToastGravity.TOP);
-      } catch (e) {
-        print("xato");
-        Fluttertoast.showToast(msg: "ab".tr().toString(),timeInSecForIosWeb: 5,gravity: ToastGravity.TOP);
-      }
-    }
-
-    Future<void> _showMyDialog() async {
-      return showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            // backgroundColor: Colors.white,
-            title: Text("v".tr().toString()),
-            content: SingleChildScrollView(
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _controllerName,
-                    decoration: InputDecoration(
-                      labelText: 'r'.tr().toString(),
-                      border: const OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextField(
-                    controller: _controllerPhone,
-                    inputFormatters: [phonekFormatter],
-                    decoration: InputDecoration(
-                      labelText: 's'.tr().toString(),
-                      hintText: "+99 (899) 123-45-67",
-                      border: const OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextField(
-                    controller: _controllerMessage,
-                    decoration: InputDecoration(
-                      labelText: 't'.tr().toString(),
-                      border: const OutlineInputBorder(),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              MaterialButton(
-                color: kPrimaryColor,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  debugPrint(_controllerName.text.toString());
-                },
-                child: Text("w".tr().toString()),
-              ),
-              MaterialButton(
-                color: kPrimaryColor,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  debugPrint(_controllerName.text.toString());
-                  _sendBot(_controllerMessage.text, _controllerPhone.text, _controllerName.text);
-                },
-                child: Text("u".tr().toString()),
-              )
-            ],
-          );
-        },
-      );
-    }
 
     return Container(
       width: width,
@@ -164,9 +185,7 @@ class AboutDesktop extends StatelessWidget {
                     hoverColor: Colors.deepPurple,
                     height: height * 0.1,
                     enableFeedback: false,
-                    onPressed: () => {
-                      _showMyDialog()
-                    },
+                    onPressed: () => {_showMyDialog()},
                     autofocus: true,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

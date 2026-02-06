@@ -9,62 +9,72 @@ import 'package:mywebsite/src/animations/bottomAnimation.dart';
 import 'package:http/http.dart' as http;
 import '../../utils/constants.dart';
 
-class PaymeDekstop extends StatelessWidget {
+class PaymeDekstop extends StatefulWidget {
+  @override
+  State<PaymeDekstop> createState() => _PaymeDekstopState();
+}
+
+class _PaymeDekstopState extends State<PaymeDekstop> {
+  String token = "";
+
+  final TextEditingController _controllerPhone = new TextEditingController();
+  final TextEditingController _controllerNumber = new TextEditingController();
+  final TextEditingController _controllerCode = new TextEditingController();
+  final TextEditingController _controllerData = new TextEditingController();
+  final TextEditingController _controllerPrice = new TextEditingController();
 
   var phonekFormatter = new MaskTextInputFormatter(
       mask: '+## (###) ###-##-##',
-      filter: { "#": RegExp(r'[0-9]') },
-      type: MaskAutoCompletionType.lazy
-  );
+      filter: {"#": RegExp(r'[0-9]')},
+      type: MaskAutoCompletionType.lazy);
 
   var numberFormatter = new MaskTextInputFormatter(
       mask: '####-####-####-####',
-      filter: { "#": RegExp(r'[0-9]') },
-      type: MaskAutoCompletionType.lazy
-  );
+      filter: {"#": RegExp(r'[0-9]')},
+      type: MaskAutoCompletionType.lazy);
 
   var codeFormatter = new MaskTextInputFormatter(
       mask: '##/##',
-      filter: { "#": RegExp(r'[0-9]') },
-      type: MaskAutoCompletionType.lazy
-  );
+      filter: {"#": RegExp(r'[0-9]')},
+      type: MaskAutoCompletionType.lazy);
 
   @override
-  Widget build(BuildContext context)  {
+  void dispose() {
+    super.dispose();
+    _controllerPhone.dispose();
+    _controllerNumber.dispose();
+    _controllerCode.dispose();
+    _controllerData.dispose();
+    _controllerPrice.dispose();
+  }
 
+  Future<void> _sendBot(String summa, String phone) async {
+    try {
+      var message = "To'lov qilindi : \nTelefon : $phone\nSumma : $summa";
+
+      Map<String, String> header = {
+        "Content-Type": "application/json",
+        "cache-control": "no-cache"
+      };
+
+      final json = '{"chat_id":"-1001904001413","text":"$message"}';
+
+      var responce = await http.post(
+          Uri.parse(
+              "https://api.telegram.org/bot5880434981:AAF9iuM0bwY953QOqN5MzWRNrMMrztZH9IE/sendMessage"),
+          headers: header,
+          body: json);
+      print(responce.body);
+    } catch (e) {
+      print("xato");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    final TextEditingController _controllerPhone = new TextEditingController();
-    final TextEditingController _controllerNumber = new TextEditingController();
-    final TextEditingController _controllerCode = new TextEditingController();
-    final TextEditingController _controllerData = new TextEditingController();
-    final TextEditingController _controllerPrice = new TextEditingController();
-
-    Future<void> _sendBot(String summa, String phone) async {
-      try {
-        var message =
-            "To'lov qilindi : \nTelefon : $phone\nSumma : $summa";
-
-        Map<String, String> header = {
-          "Content-Type": "application/json",
-          "cache-control": "no-cache"
-        };
-
-        final json = '{"chat_id":"-1001904001413","text":"$message"}';
-
-        var responce = await http.post(
-            Uri.parse(
-                "https://api.telegram.org/bot5880434981:AAF9iuM0bwY953QOqN5MzWRNrMMrztZH9IE/sendMessage"),
-            headers: header,
-            body: json);
-        print(responce.body);
-      } catch (e) {
-        print("xato");
-      }
-    }
-
-    String token = "";
     return Container(
       width: width,
       height: height,
@@ -75,51 +85,51 @@ class PaymeDekstop extends StatelessWidget {
             height: height * 0.015,
           ),
           ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-            child: Column(
-              children: [
-                ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    child: Image.asset("assets/pay.jpg",width: width * 0.1)),
-                SizedBox(
-                  height: height * 0.01,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                            "pay".tr().toString(),
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: width * 0.035,
-                            fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        SizedBox(
-                          height: height * 0.01,
-                        ),
-                        Text(
-                            "energrytravel.uz",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: height * 0.025
-                          ),
-                        )
-                      ],
-                    ),
-                    ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              child: Column(
+                children: [
+                  ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
-                      child: Image.asset("assets/4.png",height: height * 0.35,fit: BoxFit.scaleDown,color: Colors.transparent,),
-                    )
-                  ],
-                ),
-
-              ],
-            )
-          ),
+                      child: Image.asset("assets/pay.jpg", width: width * 0.1)),
+                  SizedBox(
+                    height: height * 0.01,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "pay".tr().toString(),
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: width * 0.035,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: height * 0.01,
+                          ),
+                          Text(
+                            "energrytravel.uz",
+                            style: TextStyle(
+                                color: Colors.black, fontSize: height * 0.025),
+                          )
+                        ],
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        child: Image.asset(
+                          "assets/4.png",
+                          height: height * 0.35,
+                          fit: BoxFit.scaleDown,
+                          color: Colors.transparent,
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              )),
           Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -137,14 +147,10 @@ class PaymeDekstop extends StatelessWidget {
                           labelText: 's'.tr().toString(),
                           hintText: "+99 (899) 123-45-67",
                           hintStyle: TextStyle(color: Colors.black38),
-                          border: OutlineInputBorder(
-
-                          ),
+                          border: OutlineInputBorder(),
                           labelStyle: TextStyle(color: Colors.black),
                           enabledBorder: const OutlineInputBorder(
-                            borderSide:  BorderSide(
-                              color: Colors.black
-                            ),
+                            borderSide: BorderSide(color: Colors.black),
                           ),
                           // hintMaxLines: 20,
                         ),
@@ -170,14 +176,10 @@ class PaymeDekstop extends StatelessWidget {
                       labelText: 'z'.tr().toString(),
                       hintText: "0000-0000-0000-0000",
                       hintStyle: TextStyle(color: Colors.black38),
-                      border: OutlineInputBorder(
-
-                      ),
+                      border: OutlineInputBorder(),
                       labelStyle: TextStyle(color: Colors.black),
                       enabledBorder: const OutlineInputBorder(
-                        borderSide:  BorderSide(
-                            color: Colors.black
-                        ),
+                        borderSide: BorderSide(color: Colors.black),
                       ),
                       // hintMaxLines: 20,
                     ),
@@ -200,14 +202,10 @@ class PaymeDekstop extends StatelessWidget {
                       labelText: 'y'.tr().toString(),
                       hintText: "06/29",
                       hintStyle: TextStyle(color: Colors.black38),
-                      border: OutlineInputBorder(
-
-                      ),
+                      border: OutlineInputBorder(),
                       labelStyle: TextStyle(color: Colors.black),
                       enabledBorder: const OutlineInputBorder(
-                        borderSide:  BorderSide(
-                            color: Colors.black
-                        ),
+                        borderSide: BorderSide(color: Colors.black),
                       ),
                       // hintMaxLines: 20,
                     ),
@@ -236,14 +234,10 @@ class PaymeDekstop extends StatelessWidget {
                     labelText: 'Summa'.tr().toString(),
                     hintText: "1000        so'm",
                     hintStyle: TextStyle(color: Colors.black38),
-                    border: OutlineInputBorder(
-
-                    ),
+                    border: OutlineInputBorder(),
                     labelStyle: TextStyle(color: Colors.black),
                     enabledBorder: const OutlineInputBorder(
-                      borderSide:  BorderSide(
-                          color: Colors.black
-                      ),
+                      borderSide: BorderSide(color: Colors.black),
                     ),
                     // hintMaxLines: 20,
                   ),
@@ -267,15 +261,18 @@ class PaymeDekstop extends StatelessWidget {
                 animationDuration: Duration(milliseconds: 1000),
                 hoverColor: Colors.deepPurple,
                 height: height * 0.1,
-                onPressed: ()   async {
-
-                  if(_controllerData.text.length ==5 && _controllerNumber.text.length == 19 && _controllerPhone.text.length == 19 && _controllerPrice.text.isNotEmpty){
-
-                    await cardsCreate(_controllerNumber.text.toString(), _controllerData.text.toString(), "amount").then((v)=>token=v);
+                onPressed: () async {
+                  if (_controllerData.text.length == 5 &&
+                      _controllerNumber.text.length == 19 &&
+                      _controllerPhone.text.length == 19 &&
+                      _controllerPrice.text.isNotEmpty) {
+                    await cardsCreate(_controllerNumber.text.toString(),
+                            _controllerData.text.toString(), "amount")
+                        .then((v) => token = v);
 
                     debugPrint(token);
 
-                    if(token != "null"){
+                    if (token != "null") {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -327,13 +324,17 @@ class PaymeDekstop extends StatelessWidget {
                               ],
                             );
                           });
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: "Error",
+                          timeInSecForIosWeb: 5,
+                          gravity: ToastGravity.TOP);
                     }
-                    else{
-                      Fluttertoast.showToast(msg: "Error",timeInSecForIosWeb: 5,gravity: ToastGravity.TOP);
-                    }
-                  }
-                  else{
-                    Fluttertoast.showToast(msg: "Error",timeInSecForIosWeb: 5,gravity: ToastGravity.TOP);
+                  } else {
+                    Fluttertoast.showToast(
+                        msg: "Error",
+                        timeInSecForIosWeb: 5,
+                        gravity: ToastGravity.TOP);
                   }
                 },
                 autofocus: true,
